@@ -4,49 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Connexion — Vola+</title>
-<meta name="theme-color" content="#0B6E4F">
-<link rel="manifest" href="manifest.json">
-
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body class="bg-success bg-gradient min-vh-100 d-flex align-items-center justify-content-center">
 
-<div id="netBanner"><span class="dot"></span><span id="netBannerText">Mode hors ligne — connexion possible avec les identifiants déjà enregistrés sur cet appareil</span></div>
+<div class="card shadow-lg border-0" style="width:100%; max-width:400px;">
+  <div class="card-body p-4 p-md-5">
 
-<div class="login-wrap">
-
-  <!-- Panneau de marque -->
-  <!-- <div class="login-aside">
-    <div class="brand-mark">Vola<span class="plus">+</span></div>
-    <div>
-      <h1>La mobile money qui fonctionne, même sans réseau.</h1>
-      <p class="lead-sub">Envoyez, recevez et payez vos factures partout à Madagascar. Vos opérations hors ligne se synchronisent dès que la connexion revient.</p>
+    <div class="text-center mb-4">
+      <h2 class="fw-bold text-success">Vola<span class="text-warning">+</span></h2>
+      <p class="text-muted">Accédez à votre espace Vola+.</p>
     </div>
-    <div class="login-stats">
-      <div><strong>2,4 M</strong><span>Utilisateurs actifs</span></div>
-      <div><strong>99,8 %</strong><span>Disponibilité</span></div>
-      <div><strong>24/7</strong><span>Support client</span></div>
-    </div>
-  </div> -->
 
-  <div class="login-form-col">
-    <div class="login-form-box">
-      <div class="brand-mark d-lg-none mb-4" style="color:var(--vola-ink);">Vola<span class="plus">+</span></div>
-      <h2>Connexion</h2>
-      <p class="sub">Accédez à votre espace Vola+.</p>
+    <?php if (session()->getFlashdata('error')): ?>
+      <div class="alert alert-danger py-2" role="alert">
+        <i class="bi bi-exclamation-triangle me-1"></i><?= session()->getFlashdata('error') ?>
+      </div>
+    <?php endif; ?>
 
-      <form id="loginForm" action="/auth/log" method="post">
-        <label class="form-label-vola" >Numéro de téléphone</label>
-        <input type="tel" class="input-vola mb-3" id="numero" name="numero" placeholder="034 00 000 00" required>
-        <button type="submit" class="btn-vola-primary mt-2">Se connecter</button>
-      </form>
-    </div>
+    <form action="/auth/log" method="post">
+      <label for="numero" class="form-label fw-semibold">Numéro de téléphone</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text"><i class="bi bi-phone"></i></span>
+        <input type="tel" class="form-control" id="numero" name="numero" placeholder="034 00 000 00" required autofocus>
+      </div>
+      <button type="submit" class="btn btn-success w-100 btn-lg">
+        <i class="bi bi-box-arrow-in-right me-1"></i>Se connecter
+      </button>
+    </form>
+
   </div>
-
 </div>
+
 </body>
 </html>

@@ -1,0 +1,33 @@
+CRITICAL - 2026-07-20 08:46:45 --> TypeError: App\Models\ClientModel::getSolde(): Argument #1 ($numero) must be of type string, null given, called in /home/nox/Documents/GitHub/Mobile_Money/app/Controllers/ClientController.php on line 17
+[Method: GET, Route: client/solde]
+in APPPATH/Models/ClientModel.php on line 16.
+ 1 APPPATH/Controllers/ClientController.php(17): App\Models\ClientModel->getSolde()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\ClientController->solde()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/nox/Documents/GitHub/Mobile_Money/public/index.php')
+CRITICAL - 2026-07-20 08:50:28 --> TypeError: App\Models\ClientModel::getSolde(): Argument #1 ($numero) must be of type string, null given, called in /home/nox/Documents/GitHub/Mobile_Money/app/Controllers/ClientController.php on line 17
+[Method: GET, Route: client/solde]
+in APPPATH/Models/ClientModel.php on line 16.
+ 1 APPPATH/Controllers/ClientController.php(17): App\Models\ClientModel->getSolde()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\ClientController->solde()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/nox/Documents/GitHub/Mobile_Money/public/index.php')
+CRITICAL - 2026-07-20 08:51:14 --> TypeError: App\Models\ClientModel::getSolde(): Argument #1 ($numero) must be of type string, null given, called in /home/nox/Documents/GitHub/Mobile_Money/app/Controllers/ClientController.php on line 17
+[Method: GET, Route: client/solde]
+in APPPATH/Models/ClientModel.php on line 16.
+ 1 APPPATH/Controllers/ClientController.php(17): App\Models\ClientModel->getSolde()
+ 2 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\ClientController->solde()
+ 3 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 4 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 5 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+ 7 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+ 8 SYSTEMPATH/rewrite.php(44): require_once('/home/nox/Documents/GitHub/Mobile_Money/public/index.php')
