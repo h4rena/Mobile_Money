@@ -109,7 +109,7 @@
     </div>
   </div>
 
-  <div class="card-vola">
+  <div class="card-vola mb-4">
     <div class="card-header-vola d-flex justify-content-between align-items-center">
       <span><i class="bi bi-info-circle me-1"></i>Barème des frais</span>
       <a href="/montant-frais/create" class="btn btn-vola btn-vola-green btn-sm">
@@ -151,6 +151,19 @@
           <?php endif; ?>
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <div class="card-vola">
+    <div class="card-header-vola d-flex justify-content-between align-items-center">
+      <span><i class="bi bi-percent me-1"></i>Commissions inter-opérateurs</span>
+      <a href="/commission" class="btn btn-vola btn-vola-blue btn-sm">
+        <i class="bi bi-gear me-1"></i>Gérer
+      </a>
+    </div>
+    <div class="card-body text-center text-muted py-4">
+      <i class="bi bi-arrow-left-right" style="font-size:2rem;"></i>
+      <p class="mt-2 mb-0">Gérez les taux de commission pour les transferts inter-opérateurs</p>
     </div>
   </div>
 

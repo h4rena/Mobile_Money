@@ -56,9 +56,17 @@
             </div>
 
             <label for="montant" class="form-label fw-semibold">Montant du transfert (Ar)</label>
-            <div class="input-group mb-4">
+            <div class="input-group mb-3">
               <span class="input-group-text"><i class="bi bi-cash-stack"></i></span>
               <input type="number" class="form-control" name="montant" id="montant" min="0" placeholder="Entrez le montant" required>
+            </div>
+
+            <div class="form-check mb-4 p-3" style="background:rgba(37,99,235,0.05);border:1px solid rgba(37,99,235,0.15);border-radius:10px;">
+              <input class="form-check-input" type="checkbox" name="inclus_frais" id="inclus_frais" value="1" checked>
+              <label class="form-check-label fw-semibold" for="inclus_frais">
+                <i class="bi bi-shield-check text-primary me-1"></i>Inclure les frais de retrait
+              </label>
+              <div class="small text-muted mt-1">L'expéditeur paie les frais. Le destinataire reçoit le montant complet.</div>
             </div>
 
             <button type="submit" class="btn btn-vola btn-vola-blue w-100 btn-lg mb-2">
