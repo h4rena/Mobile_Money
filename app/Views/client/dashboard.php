@@ -34,7 +34,7 @@
       <li><a href="#"><i class="bi bi-gear"></i>Paramètres</a></li>
     </ul>
     <div class="sidebar-foot">
-      <a href="login.html" style="color:rgba(255,255,255,0.7);"><i class="bi bi-box-arrow-left me-2"></i>Déconnexion</a>
+      <a href="/auth/logout" style="color:rgba(255,255,255,0.7);"><i class="bi bi-box-arrow-left me-2"></i>Déconnexion</a>
     </div>
   </aside>
 
@@ -48,7 +48,7 @@
       <div class="topbar-right">
         <span class="badge-offline-tag" id="offlineTag" style="display:none;">HORS LIGNE</span>
         <i class="bi bi-bell text-muted"></i>
-        <div class="avatar-circle" id="avatarLetter">R</div>
+        <div class="avatar-circle" id="avatarLetter"><?= strtoupper(substr($client['nom_client'], 0, 1)) ?></div>
       </div>
     </div>
 
@@ -60,8 +60,7 @@
           <div class="stat-card">
             <div class="stat-icon"><i class="bi bi-wallet2"></i></div>
             <div class="stat-label">Solde disponible</div>
-            <div class="stat-value"><span id="balanceValue">125 400</span> <span style="font-size:0.9rem;">Ar</span> <button class="btn btn-sm p-0 border-0" onclick="toggleBalance()"><i class="bi bi-eye" id="eyeIcon" style="font-size:0.85rem; color:var(--vola-muted);"></i></button></div>
-            <div class="stat-delta up"><i class="bi bi-arrow-up-short"></i>+12 000 aujourd'hui</div>
+            <div class="stat-value"><span id="balanceValue"><?= number_format($client['solde'], 0, ',', ' ') ?></span> <span style="font-size:0.9rem;">Ar</span> <button class="btn btn-sm p-0 border-0" onclick="toggleBalance()"><i class="bi bi-eye" id="eyeIcon" style="font-size:0.85rem; color:var(--vola-muted);"></i></button></div>
           </div>
         </div>
         <div class="col-6 col-lg-3">
@@ -97,7 +96,7 @@
             <div class="panel-head"><h6>Actions rapides</h6></div>
             <div class="qa-grid">
               <button class="qa-btn" onclick="openAction('Envoyer de l\'argent')"><i class="bi bi-send"></i>Envoyer</button>
-              <button class="qa-btn" onclick="openAction('Recharger')"><i class="bi bi-plus-circle"></i>Recharger</button>
+              <button class="qa-btn" onclick="window.location.href='/depot'"><i class="bi bi-plus-circle"></i>Recharger</button>
               <button class="qa-btn" onclick="openAction('Retirer')"><i class="bi bi-arrow-down-left-circle"></i>Retirer</button>
               <button class="qa-btn" onclick="openAction('Payer une facture')"><i class="bi bi-receipt"></i>Payer</button>
             </div>
