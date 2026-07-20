@@ -95,6 +95,31 @@ class OperationController extends BaseController
         if ($typeOp['libelle'] === 'Depot') {
             $nouveauSolde = $client['solde'] + $montant;
 
+            $db = \Config\Database::connect();
+            $db->transStart();
+
+            $clientModel->update($id_client, ['solde' => $nouveauSolde]);
+
+            $operationModel->insert([
+                'id_operateur'      => $operateurEmetteur['id_operateur'],
+                'id_type_operation' => $id_type_operation,
+                'id_client'         => $id_client,
+                'montant'           => $montant,
+                'frais'             => 0,
+                'date_operation'    => date('Y-m-d H:i:s'),
+            ]);
+
+            $db->transComplete();
+
+            if ($db->transStatus() === false) {
+                return redirect()->back()->with('error', 'Erreur lors de l\'opération');
+            }
+
+            $client['solde'] = $nouveauSolde;
+            session()->set('client', $client);
+
+            return redirect()->to('/dashboard')->with('success', 'Dépôt effectué avec succès');
+
         } elseif ($typeOp['libelle'] === 'Retrait') {
             $ligne = $montantFraisModel->getFraisByMontant($montant);
             $frais = $ligne ? $ligne['frais'] : 0;
@@ -104,43 +129,68 @@ class OperationController extends BaseController
             }
             $nouveauSolde = $client['solde'] - $montant - $frais;
 
+            $db = \Config\Database::connect();
+            $db->transStart();
+
+            $clientModel->update($id_client, ['solde' => $nouveauSolde]);
+
+            $operationModel->insert([
+                'id_operateur'      => $operateurEmetteur['id_operateur'],
+                'id_type_operation' => $id_type_operation,
+                'id_client'         => $id_client,
+                'montant'           => $montant,
+                'frais'             => $frais,
+                'date_operation'    => date('Y-m-d H:i:s'),
+            ]);
+
+            $db->transComplete();
+
+            if ($db->transStatus() === false) {
+                return redirect()->back()->with('error', 'Erreur lors de l\'opération');
+            }
+
+            $client['solde'] = $nouveauSolde;
+            session()->set('client', $client);
+
+            return redirect()->to('/dashboard')->with('success', 'Retrait effectué avec succès');
+
         } elseif ($typeOp['libelle'] === 'Transfert') {
-            $numero_dest = $this->request->getPost('numero_destinataire');
-            if (!$numero_dest) {
+            $destinataires = $this->request->getPost('numero_destinataire');
+            if (empty($destinataires) || !is_array($destinataires)) {
                 return redirect()->back()->with('error', 'Numéro du destinataire requis');
             }
 
-            $destinataire = $clientModel->getClientByNumero($numero_dest);
-            if (!$destinataire) {
-                return redirect()->back()->with('error', 'Destinataire non trouvé');
+            $destinataires = array_filter($destinataires, function($v) {
+                return !empty(trim($v));
+            });
+            $destinataires = array_values($destinataires);
+
+            if (count($destinataires) === 0) {
+                return redirect()->back()->with('error', 'Numéro du destinataire requis');
             }
 
-            $operateurDest = $operateurModel->getOperateurByNumero($destinataire['numero']);
-            if (!$operateurDest) {
-                return redirect()->back()->with('error', 'Opérateur du destinataire non trouvé');
+            $destData = [];
+            foreach ($destinataires as $num) {
+                $dest = $clientModel->getClientByNumero(trim($num));
+                if (!$dest) {
+                    return redirect()->back()->with('error', 'Destinataire non trouvé : ' . esc($num));
+                }
+                $opDest = $operateurModel->getOperateurByNumero($dest['numero']);
+                if (!$opDest) {
+                    return redirect()->back()->with('error', 'Opérateur non trouvé pour : ' . esc($num));
+                }
+                if ($opDest['id_operateur'] !== $operateurEmetteur['id_operateur']) {
+                    return redirect()->back()->with('error', 'Envoi multiple réservé au même opérateur. Numéro incompatible : ' . esc($num));
+                }
+                $destData[] = $dest;
             }
 
             $inclusFrais = $this->request->getPost('inclus_frais');
+            $nbDest = count($destData);
+            $montantParDest = $montant / $nbDest;
 
             $ligne = $montantFraisModel->getFraisByMontant($montant);
-            $fraisBase = $ligne ? $ligne['frais'] : 0;
-
-            $commission = 0;
-            if ($operateurEmetteur['id_operateur'] !== $operateurDest['id_operateur']) {
-                $comm = $commissionModel->getTaux(
-                    $operateurEmetteur['id_operateur'],
-                    $operateurDest['id_operateur']
-                );
-                if ($comm) {
-                    $commission = $montant * ($comm['taux'] / 100);
-                }
-            }
-
-            if ($inclusFrais) {
-                $frais = $fraisBase + $commission;
-            } else {
-                $frais = $commission;
-            }
+            $frais = ($inclusFrais && $ligne) ? $ligne['frais'] : 0;
 
             if ($client['solde'] < $montant + $frais) {
                 return redirect()->back()->with('error', 'Solde insuffisant');
@@ -148,37 +198,78 @@ class OperationController extends BaseController
 
             $nouveauSolde = $client['solde'] - $montant - $frais;
 
-            $destinataire['solde'] += $montant;
-            $clientModel->update($destinataire['id_client'], ['solde' => $destinataire['solde']]);
+            $dateOp = date('Y-m-d H:i:s');
+
+            $db = \Config\Database::connect();
+            $db->transStart();
+
+            $clientModel->update($id_client, ['solde' => $nouveauSolde]);
+
+            foreach ($destData as $dest) {
+                $dest['solde'] += $montantParDest;
+                $clientModel->update($dest['id_client'], ['solde' => $dest['solde']]);
+
+                $operationModel->insert([
+                    'id_operateur'      => $operateurEmetteur['id_operateur'],
+                    'id_type_operation' => $id_type_operation,
+                    'id_client'         => $dest['id_client'],
+                    'montant'           => $montantParDest,
+                    'frais'             => 0,
+                    'date_operation'    => $dateOp,
+                ]);
+            }
+
+            $operationModel->insert([
+                'id_operateur'      => $operateurEmetteur['id_operateur'],
+                'id_type_operation' => $id_type_operation,
+                'id_client'         => $id_client,
+                'montant'           => $montant,
+                'frais'             => $frais,
+                'date_operation'    => $dateOp,
+            ]);
+
+            $db->transComplete();
+
+            if ($db->transStatus() === false) {
+                return redirect()->back()->with('error', 'Erreur lors de l\'opération');
+            }
+
+            $client['solde'] = $nouveauSolde;
+            session()->set('client', $client);
+
+            $msg = $nbDest > 1
+                ? "Transfert effectué à {$nbDest} destinataires avec succès"
+                : "Transfert effectué avec succès";
+            return redirect()->to('/dashboard')->with('success', $msg);
 
         } else {
             $nouveauSolde = $client['solde'];
+
+            $db = \Config\Database::connect();
+            $db->transStart();
+
+            $clientModel->update($id_client, ['solde' => $nouveauSolde]);
+
+            $operationModel->insert([
+                'id_operateur'      => $operateurEmetteur['id_operateur'],
+                'id_type_operation' => $id_type_operation,
+                'id_client'         => $id_client,
+                'montant'           => $montant,
+                'frais'             => $frais,
+                'date_operation'    => date('Y-m-d H:i:s'),
+            ]);
+
+            $db->transComplete();
+
+            if ($db->transStatus() === false) {
+                return redirect()->back()->with('error', 'Erreur lors de l\'opération');
+            }
+
+            $client['solde'] = $nouveauSolde;
+            session()->set('client', $client);
+
+            return redirect()->to('/dashboard')->with('success', 'Opération effectuée avec succès');
         }
-
-        $db = \Config\Database::connect();
-        $db->transStart();
-
-        $clientModel->update($id_client, ['solde' => $nouveauSolde]);
-
-        $operationModel->insert([
-            'id_operateur'      => $operateurEmetteur['id_operateur'],
-            'id_type_operation' => $id_type_operation,
-            'id_client'         => $id_client,
-            'montant'           => $montant,
-            'frais'             => $frais,
-            'date_operation'    => date('Y-m-d H:i:s'),
-        ]);
-
-        $db->transComplete();
-
-        if ($db->transStatus() === false) {
-            return redirect()->back()->with('error', 'Erreur lors de l\'opération');
-        }
-
-        $client['solde'] = $nouveauSolde;
-        session()->set('client', $client);
-
-        return redirect()->to('/dashboard')->with('success', 'Opération effectuée avec succès');
     }
 
     public function edit($id = null)
