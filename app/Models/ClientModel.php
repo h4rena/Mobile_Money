@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class ClientModel extends Model
 {
     protected $table = 'clients';
-    protected $allowedFields = ['nom_client','numero'];
+    protected $allowedFields = ['nom_client','numero','solde'];
 
     public function getClientByNumero(string $numero)
     {
