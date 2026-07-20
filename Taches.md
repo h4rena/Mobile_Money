@@ -1,7 +1,5 @@
 # V1 — MobileMoney
 
-
-
 ## Tache 3945 & 3958 — Modeles & Controllers (CRUD)
 
 ### Models crees
@@ -22,14 +20,12 @@
 ### Routes CRUD ajoutees
 - [x] Routes dans Routes.php
 
-
 ## Tache 3945 — Cote Client 
 
 ### Authentification
 - [x] AuthController — login(), log(), dashboard(), logout()
 - [x] Stockage du client en session
 - [x] Routes: /, /auth/log, /auth/logout, /dashboard
-
 
 ### Dashboard
 - [x] Solde dynamique du client
@@ -56,8 +52,6 @@
 - [x] Vue liste operations (index)
 - [x] Vue detail d'une operation (show)
 
-
-
 ## Tache 3958 — Cote Client
 
 ### Operations
@@ -77,7 +71,6 @@
 - [x] GET /depot, /retrait, /transfert
 - [x] POST /operations/store
 
-
 ## Tache 3945 & 3958 — Cote Operateur
 
 ### Base
@@ -85,11 +78,9 @@
 - [x] Tables: operations, type_operation, montant_frais
 
 ## Tache 3945 — Cote Client (login)
-
 - [x] AuthController — login(), log()
 - [x] Routes: /, /auth/log
 - [x] Vue: login.php
-
 
 ## Tache 3945 & 3958 — Design
 
@@ -117,15 +108,52 @@
 - [x] transfert.php — card centree, icone bleue, theme bleu
 - [x] solde.php — card degradee verte, solde en gros, design premium
 
-
 # V2    
 
 ## Taches 3945
-- [] separation du cote operateur et client
-- [] login operateur et client
+- [x] separation du cote operateur et client
+- [x] login operateur et client
 
 ## Taches 3958
 - [x] Commission inter-operateurs
   - [x] Table commission (source, dest, taux)
   - [x] CommissionModel::getTaux()
   - [x] Logique dans store(): frais_base + commission si inter-operateur
+  - [x] CommissionController — CRUD complet (index, create, store, edit, update, delete)
+  - [x] CommissionModel — CRUD + getTaux()
+  - [x] Vues commission: index.php, create.php, edit.php
+  - [x] Routes commission dans Routes.php
+
+## Refonte UI Operateur — Bootstrap local + style.css
+- [x] operateur/login.php — flash messages + lien retour client
+- [x] operateur/dashboard.php — Bootstrap local + navbar-vola responsive + avatar
+- [x] operateur/situation.php — Bootstrap local + navbar-vola responsive + avatar
+- [x] operateur/commission/index.php — navbar-vola responsive + csrf_field
+- [x] operateur/commission/create.php — navbar-vola responsive
+- [x] operateur/commission/edit.php — navbar-vola responsive
+- [x] montant_frais/index.php — Bootstrap local + style.css + navbar-vola
+- [x] montant_frais/create.php — Bootstrap local + style.css + input-groups
+- [x] montant_frais/edit.php — Bootstrap local + style.css + input-groups
+- [x] Organiser vues commission dans operateur/commission/ (index, create, edit)
+- [x] OperateurController — passage de $operateur (session) aux vues
+
+## Transfert — Option inclure frais de retrait
+- [x] Checkbox "Inclure les frais de retrait" dans transfert.php (cochee par defaut)
+- [x] Logique controller: frais = fraisBase + commission si inter-op, fraisBase si meme op
+- [x] Validation JS: desactiver checkbox si prefixe destinataire different
+- [x] Message "Frais de retrait non applicables en inter-opérateur"
+- [x] Condition serveur: inter-op = commission seulement, pas de frais de retrait
+
+## Envoi multiple (meme operateur uniquement)
+- [x] Liste dynamique de destinataires dans transfert.php (ajouter/retirer)
+- [x] Validation JS: prefixe不同 = erreur + blocage
+- [x] Apercu temps reel: "Chaque destinataire recevra X Ar"
+- [x] Controller: tableau numero_destinataire[] + validation chaque dest
+- [x] Controller: montant / nombre_destinataires
+- [x] Controller: verification tous meme operateur que l'expediteur
+- [x] Transaction DB: debiter expediteur + crediter chaque destinataire + INSERT operations
+
+## Situation gains — Separation par operateur
+- [x] OperateurController: regrouper gains par operateur (gainsParOperateur + totalParOperateur)
+- [x] situation.php: une card par operateur avec header + total + sous-table
+- [x] Badge total gains par operateur dans le header de chaque card
