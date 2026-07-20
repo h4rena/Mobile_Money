@@ -37,10 +37,10 @@
 
 <div class="container-fluid py-3">
 
-  <!-- Cartes stats -->
+  <!-- Solde -->
   <div class="row g-3 mb-4">
-    <div class="col-6 col-lg-3">
-      <div class="card border-0 shadow-sm h-100">
+    <div class="col-12">
+      <div class="card border-0 shadow-sm">
         <div class="card-body">
           <div class="d-flex align-items-center mb-2">
             <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
@@ -49,48 +49,6 @@
           </div>
           <small class="text-muted">Solde disponible</small>
           <h4 class="fw-bold mb-0"><?= number_format($client['solde'], 0, ',', ' ') ?> <small class="fs-6">Ar</small></h4>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-lg-3">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body">
-          <div class="d-flex align-items-center mb-2">
-            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
-              <i class="bi bi-graph-up-arrow text-primary"></i>
-            </div>
-          </div>
-          <small class="text-muted">Reçu ce mois</small>
-          <h4 class="fw-bold mb-0">312 000 <small class="fs-6">Ar</small></h4>
-          <small class="text-success"><i class="bi bi-arrow-up-short"></i>+8%</small>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-lg-3">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body">
-          <div class="d-flex align-items-center mb-2">
-            <div class="bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
-              <i class="bi bi-graph-down-arrow text-danger"></i>
-            </div>
-          </div>
-          <small class="text-muted">Dépensé ce mois</small>
-          <h4 class="fw-bold mb-0">186 500 <small class="fs-6">Ar</small></h4>
-          <small class="text-danger"><i class="bi bi-arrow-down-short"></i>-3%</small>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-lg-3">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body">
-          <div class="d-flex align-items-center mb-2">
-            <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
-              <i class="bi bi-hourglass-split text-warning"></i>
-            </div>
-          </div>
-          <small class="text-muted">En attente sync.</small>
-          <h4 class="fw-bold mb-0">0</h4>
-          <small class="text-muted">Opérations hors ligne</small>
         </div>
       </div>
     </div>
@@ -134,24 +92,23 @@
                 <tr><th>Opération</th><th>Date</th><th class="text-end">Montant</th></tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><i class="bi bi-arrow-up-right text-danger me-2"></i>Envoi à 034 12 345 67</td>
-                  <td class="text-muted small">18 Jul 2026</td>
-                  <td class="text-end fw-semibold text-danger">- 15 000 Ar</td>
-                </tr>
-                <tr>
-                  <td><i class="bi bi-arrow-down-left text-success me-2"></i>Réception de 033 98 765 43</td>
-                  <td class="text-muted small">17 Jul 2026</td>
-                  <td class="text-end fw-semibold text-success">+ 50 000 Ar</td>
-                </tr>
-                <tr>
-                  <td><i class="bi bi-receipt text-warning me-2"></i>Payer Jirama</td>
-                  <td class="text-muted small">15 Jul 2026</td>
-                  <td class="text-end fw-semibold text-danger">- 35 000 Ar</td>
-                </tr>
-                <tr>
-                  <td class="text-muted" colspan="3" class="text-center text-muted py-3">Aucune autre transaction</td>
-                </tr>
+                <?php if (empty($operations)): ?>
+                  <tr><td colspan="3" class="text-center text-muted py-4">Aucune transaction</td></tr>
+                <?php else: ?>
+                  <?php foreach ($operations as $op): ?>
+                    <?php $isDepot = ($op['id_type_operation'] == 1); ?>
+                    <tr>
+                      <td>
+                        <i class="bi bi-<?= $isDepot ? 'arrow-down-left text-success' : 'arrow-up-right text-danger' ?> me-2"></i>
+                        <?= esc($op['type_libelle']) ?>
+                      </td>
+                      <td class="text-muted small"><?= date('d M Y', strtotime($op['date_operation'])) ?></td>
+                      <td class="text-end fw-semibold <?= $isDepot ? 'text-success' : 'text-danger' ?>">
+                        <?= $isDepot ? '+' : '- ' ?><?= number_format($op['montant'], 0, ',', ' ') ?> Ar
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                <?php endif; ?>
               </tbody>
             </table>
           </div>
