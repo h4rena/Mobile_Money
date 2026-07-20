@@ -25,5 +25,11 @@ class AuthController extends BaseController
             return redirect()->back()->with('error', 'Numéro de téléphone incorrect.');
         }
     }
+
+    public function logout()
+    {
+        session()->destroy();
+        return redirect()->to('/');
+    }
 }
 ?>
