@@ -7,7 +7,7 @@ class AuthController extends BaseController
 {
     public function login()
     {
-        return view('client/login');
+        return view('login');
     }
 
     public function log()
@@ -17,7 +17,7 @@ class AuthController extends BaseController
         $client = $clientModel->getClientByNumero($numero);
 
         if ($client) {
-            return view('client/dashboard');
+            return redirect()->to('/dashboard');
         } else {
             return redirect()->back()->with('error', 'Numéro de téléphone incorrect.');
         }
