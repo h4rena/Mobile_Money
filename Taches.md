@@ -19,6 +19,13 @@ Suivant -> Créer les vues (operateur/, type_operation/, montant_frais/, operati
 Cote Client
     Tache 3945
         -login avec numero de telephone
+            -routes.php
+                -/login
+                -/log
+            -AuthController.php
+                -login()
+                -log()
+            views:login.php
     Tache 3958
         -operation
             -voir solde
