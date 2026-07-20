@@ -8,3 +8,4 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->get('/', 'AuthController::login');
 $routes->post('/auth/log', 'AuthController::log');
+$routes->get('/prefixes', 'PrefixeController::index');
