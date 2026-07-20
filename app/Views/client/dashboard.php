@@ -103,13 +103,13 @@
         <div class="card-header bg-white fw-semibold"><i class="bi bi-lightning-fill text-warning me-1"></i>Actions rapides</div>
         <div class="card-body">
           <div class="d-grid gap-2">
-            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#actionModal" data-action="Envoyer de l'argent">
+            <button class="btn btn-success" onclick="window.location.href='/transfert'">
               <i class="bi bi-send me-1"></i>Envoyer de l'argent
             </button>
             <a href="/depot" class="btn btn-primary">
               <i class="bi bi-plus-circle me-1"></i>Recharger
             </a>
-            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#actionModal" data-action="Retirer">
+            <button class="btn btn-outline-danger" onclick="window.location.href='/retrait'">
               <i class="bi bi-arrow-down-left-circle me-1"></i>Retirer
             </button>
             <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#actionModal" data-action="Payer une facture">
