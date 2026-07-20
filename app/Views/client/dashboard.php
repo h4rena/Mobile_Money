@@ -102,9 +102,9 @@
           <div class="panel h-100">
             <div class="panel-head"><h6>Actions rapides</h6></div>
             <div class="qa-grid">
-              <button class="qa-btn" onclick="openAction('Envoyer de l\'argent')"><i class="bi bi-send"></i>Envoyer</button>
+              <button class="qa-btn" onclick="window.location.href='/transfert'"><i class="bi bi-send"></i>Envoyer</button>
               <button class="qa-btn" onclick="window.location.href='/depot'"><i class="bi bi-plus-circle"></i>Recharger</button>
-              <button class="qa-btn" onclick="openAction('Retirer')"><i class="bi bi-arrow-down-left-circle"></i>Retirer</button>
+              <button class="qa-btn" onclick="window.location.href='/retrait'"><i class="bi bi-arrow-down-left-circle"></i>Retirer</button>
               <button class="qa-btn" onclick="openAction('Payer une facture')"><i class="bi bi-receipt"></i>Payer</button>
             </div>
           </div>

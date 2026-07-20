@@ -14,6 +14,8 @@ $routes->get('/dashboard', 'ClientController::dashboard');
 
 $routes->get('/prefixes', 'PrefixeController::index');
 $routes->get('/depot', 'OperationController::depot');
+$routes->get('/retrait', 'OperationController::retrait');
+$routes->get('/transfert', 'OperationController::transfert');
 $routes->post('/operations/store', 'OperationController::store');
 
 $routes->get('/client/solde', 'ClientController::solde');

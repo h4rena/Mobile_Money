@@ -32,7 +32,7 @@ Cote Client
             -faire un depot(automatique) [sans frais]
             -faire un retrait(automatique) [avec frais] [retirer dans le compte]
             -faire un transfer [avec frais ] [retirer dans le compte]
-            -hitsorique (a partir de operation)
+            -historique (a partir de operation)
 
 tache1 de 3958 :
     -Models: OperateurModel, TypeOperationModel, MontantFraisModel, OperationModel
