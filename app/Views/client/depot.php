@@ -22,7 +22,6 @@
     <form action="/operations/store" method="post">
         <input type="hidden" name="id_client" value="<?= $client['id_client'] ?>">
         <input type="hidden" name="id_type_operation" value="1">
-        <input type="hidden" name="id_operateur" value="1">
 
         <label for="montant">Montant du dépôt (Ar) :</label><br>
         <input type="number" name="montant" id="montant" min="0" placeholder="Entrez le montant" required><br><br>

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\OperationModel;
 use App\Models\ClientModel;
 use App\Models\TypeOperationModel;
+use App\Models\OperateurModel;
 
 class OperationController extends BaseController
 {
@@ -42,17 +43,22 @@ class OperationController extends BaseController
         $id_client         = $this->request->getPost('id_client');
         $id_type_operation = $this->request->getPost('id_type_operation');
         $montant           = (float) $this->request->getPost('montant');
-        $id_operateur      = $this->request->getPost('id_operateur');
 
         $clientModel    = new ClientModel();
         $typeOpModel    = new TypeOperationModel();
         $operationModel = new OperationModel();
+        $operateurModel = new OperateurModel();
 
         $typeOp = $typeOpModel->find($id_type_operation);
         $client = $clientModel->find($id_client);
 
         if (!$client) {
             return redirect()->back()->with('error', 'Client non trouvé');
+        }
+
+        $operateur = $operateurModel->getOperateurByNumero($client['numero']);
+        if (!$operateur) {
+            return redirect()->back()->with('error', 'Opérateur non trouvé pour ce numéro');
         }
 
         if ($montant <= 0) {
@@ -83,7 +89,7 @@ class OperationController extends BaseController
         $clientModel->update($id_client, ['solde' => $nouveauSolde]);
 
         $operationModel->insert([
-            'id_operateur'      => $id_operateur,
+            'id_operateur'      => $operateur['id_operateur'],
             'id_type_operation' => $id_type_operation,
             'id_client'         => $id_client,
             'montant'           => $montant,
