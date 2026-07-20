@@ -8,9 +8,11 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->get('/', 'AuthController::login');
 $routes->post('/auth/log', 'AuthController::log');
+$routes->post('/auth/log_operateur', 'AuthController::log_operateur');
 
 $routes->get('/auth/logout', 'AuthController::logout');
 $routes->get('/dashboard', 'ClientController::dashboard');
+$routes->get('/operateur/login', 'AuthController::operateur');
 
 $routes->get('/prefixes', 'PrefixeController::index');
 $routes->get('/depot', 'OperationController::depot');
@@ -20,6 +22,7 @@ $routes->post('/operations/store', 'OperationController::store');
 
 $routes->get('/client/solde', 'ClientController::solde');
 
+$routes->get('/operateur/login', 'AuthController::login_operateur');
 $routes->get('/operateur/situation', 'OperateurController::situation');
 
 $routes->get('/montant-frais', 'MontantFraisController::index');
