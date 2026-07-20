@@ -39,6 +39,8 @@
     <button type="submit" class="btn btn-vola btn-vola-green w-100 btn-lg">
       <i class="bi bi-box-arrow-in-right me-1"></i>Se connecter
     </button>
+    <p>email:vola@vola.mg</p>
+    <p>password:mdp1</p>
   </form>
 
   <hr class="my-3">
