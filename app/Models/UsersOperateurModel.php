@@ -8,10 +8,14 @@ class UsersOperateurModel extends Model
 {
     protected $table = 'users';
     protected $primaryKey = 'id_user';
-    protected $allowedFields = ['email', 'mot_de_passe'];
+    protected $allowedFields = ['email', 'mot_de_passe', 'id_operateur'];
 
     public function getUserByOperateurByEmail($email)
     {
-        return $this->where('email', $email)->first();
+        return $this->select('users.*, operateurs.nom_operateur, operateurs.id_prefixe, prefixes.prefixe')
+            ->join('operateurs', 'operateurs.id_operateur = users.id_operateur')
+            ->join('prefixes', 'prefixes.id_prefixe = operateurs.id_prefixe')
+            ->where('users.email', $email)
+            ->first();
     }
 }

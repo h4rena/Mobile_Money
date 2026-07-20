@@ -20,6 +20,7 @@
       <ul class="navbar-nav me-auto">
         <li class="nav-item"><a class="nav-link active" href="/operateur/situation"><i class="bi bi-graph-up me-1"></i>Situation</a></li>
         <li class="nav-item"><a class="nav-link" href="/commission"><i class="bi bi-percent me-1"></i>Commissions</a></li>
+        <li class="nav-item"><a class="nav-link" href="/prefixes"><i class="bi bi-hash me-1"></i>Préfixes</a></li>
         <li class="nav-item"><a class="nav-link" href="/montant-frais"><i class="bi bi-info-circle me-1"></i>Barèmes</a></li>
       </ul>
       <div class="d-flex align-items-center gap-2">
