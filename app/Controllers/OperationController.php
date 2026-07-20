@@ -120,17 +120,26 @@ class OperationController extends BaseController
                 return redirect()->back()->with('error', 'Opérateur du destinataire non trouvé');
             }
 
-            $ligne = $montantFraisModel->getFraisByMontant($montant);
-            $frais = $ligne ? $ligne['frais'] : 0;
+            $inclusFrais = $this->request->getPost('inclus_frais');
 
+            $ligne = $montantFraisModel->getFraisByMontant($montant);
+            $fraisBase = $ligne ? $ligne['frais'] : 0;
+
+            $commission = 0;
             if ($operateurEmetteur['id_operateur'] !== $operateurDest['id_operateur']) {
-                $commission = $commissionModel->getTaux(
+                $comm = $commissionModel->getTaux(
                     $operateurEmetteur['id_operateur'],
                     $operateurDest['id_operateur']
                 );
-                if ($commission) {
-                    $frais += $montant * ($commission['taux'] / 100);
+                if ($comm) {
+                    $commission = $montant * ($comm['taux'] / 100);
                 }
+            }
+
+            if ($inclusFrais) {
+                $frais = $fraisBase + $commission;
+            } else {
+                $frais = $commission;
             }
 
             if ($client['solde'] < $montant + $frais) {
