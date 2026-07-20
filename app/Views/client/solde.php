@@ -6,35 +6,34 @@
 <title>Voir Solde — Vola+</title>
 <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 <link href="/assets/css/bootstrap-icons.min.css" rel="stylesheet">
+<link href="/assets/css/style.css" rel="stylesheet">
 </head>
-<body class="bg-light">
+<body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-dark bg-success shadow-sm">
+<nav class="navbar navbar-vola">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="/dashboard">Vola<span class="text-warning">+</span></a>
-    <a href="/dashboard" class="btn btn-outline-light btn-sm"><i class="bi bi-arrow-left me-1"></i>Retour</a>
+    <a class="navbar-brand brand" href="/dashboard">Vola<span class="plus">+</span></a>
+    <a href="/dashboard" class="btn btn-sm" style="color:#fff; border:1px solid rgba(255,255,255,0.3); border-radius:10px;"><i class="bi bi-arrow-left me-1"></i>Retour</a>
   </div>
 </nav>
 
-<div class="container py-5">
+<div class="container py-5 fade-in">
   <div class="row justify-content-center">
     <div class="col-sm-8 col-md-6 col-lg-4">
-      <div class="card border-0 shadow text-center">
-        <div class="card-body p-5">
-          <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;">
-            <i class="bi bi-wallet2 text-success" style="font-size:2rem;"></i>
-          </div>
-          <h6 class="text-muted mb-1">Votre solde disponible</h6>
-          <h1 class="display-4 fw-bold text-success mb-3">
-            <?= number_format($solde, 0, ',', ' ') ?> <small class="fs-5">Ar</small>
-          </h1>
-          <hr>
-          <a href="/dashboard" class="btn btn-success w-100 mt-2">
-            <i class="bi bi-house me-1"></i>Retour au tableau de bord
-          </a>
+
+      <div class="solde-card">
+        <div class="mb-3">
+          <i class="bi bi-wallet2" style="font-size:2.5rem; opacity:0.8;"></i>
         </div>
+        <div class="solde-label">Votre solde disponible</div>
+        <div class="solde-value"><?= number_format($solde, 0, ',', ' ') ?></div>
+        <div class="solde-unit">Ariary</div>
+        <hr style="border-color: rgba(255,255,255,0.2); margin: 1.5rem 0;">
+        <a href="/dashboard" class="btn btn-lg" style="background:rgba(255,255,255,0.2); color:#fff; border-radius:12px; font-weight:600; width:100%;">
+          <i class="bi bi-house me-1"></i>Retour au tableau de bord
+        </a>
       </div>
+
     </div>
   </div>
 </div>
