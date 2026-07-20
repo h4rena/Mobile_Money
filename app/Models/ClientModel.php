@@ -12,5 +12,12 @@ class ClientModel extends Model
     {
         return $this->where('numero', $numero)->first();
     }
+
+    public function getSolde(string $numero)
+    {
+        $client = new ClientModel();
+        $clientData = $client->getClientByNumero($numero);
+        return $clientData['solde'];
+    }
 }
 ?>
