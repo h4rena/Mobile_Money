@@ -6,6 +6,7 @@ use App\Models\OperationModel;
 use App\Models\ClientModel;
 use App\Models\TypeOperationModel;
 use App\Models\OperateurModel;
+use App\Models\MontantFraisModel;
 
 class OperationController extends BaseController
 {
@@ -38,6 +39,24 @@ class OperationController extends BaseController
         return view('client/depot', ['client' => $client]);
     }
 
+    public function retrait()
+    {
+        $client = session()->get('client');
+        if (!$client) {
+            return redirect()->to('/')->with('error', 'Veuillez vous connecter');
+        }
+        return view('client/retrait', ['client' => $client]);
+    }
+
+    public function transfert()
+    {
+        $client = session()->get('client');
+        if (!$client) {
+            return redirect()->to('/')->with('error', 'Veuillez vous connecter');
+        }
+        return view('client/transfert', ['client' => $client]);
+    }
+
     public function store()
     {
         $id_client         = $this->request->getPost('id_client');
@@ -48,9 +67,11 @@ class OperationController extends BaseController
         $typeOpModel    = new TypeOperationModel();
         $operationModel = new OperationModel();
         $operateurModel = new OperateurModel();
+        $montantFraisModel = new MontantFraisModel();
 
         $typeOp = $typeOpModel->find($id_type_operation);
         $client = $clientModel->find($id_client);
+        $frais = 0;
 
         if (!$client) {
             return redirect()->back()->with('error', 'Client non trouvé');
@@ -65,22 +86,35 @@ class OperationController extends BaseController
             return redirect()->back()->with('error', 'Le montant doit être supérieur à 0');
         }
 
+        if ($typeOp['libelle'] === 'Retrait' || $typeOp['libelle'] === 'Transfert') {
+        $ligne = $montantFraisModel->getFraisByMontant($montant);
+        $frais = $ligne ? $ligne['frais'] : 0;
+        }
+
         $nouveauSolde = $client['solde'];
 
         if ($typeOp['libelle'] === 'Depot') {
             $nouveauSolde += $montant;
 
         } elseif ($typeOp['libelle'] === 'Retrait') {
-            if ($client['solde'] < $montant) {
+            if ($client['solde'] < $montant + $frais) {
                 return redirect()->back()->with('error', 'Solde insuffisant');
             }
-            $nouveauSolde -= $montant;
+            $nouveauSolde -= $montant + $frais;
 
         } elseif ($typeOp['libelle'] === 'Transfert') {
-            if ($client['solde'] < $montant) {
+            if ($client['solde'] < $montant + $frais) {
                 return redirect()->back()->with('error', 'Solde insuffisant');
             }
-            $nouveauSolde -= $montant;
+            $nouveauSolde -= $montant + $frais;
+
+            $numero_dest = $this->request->getPost('numero_destinataire');
+            $destinataire = $clientModel->getClientByNumero($numero_dest);
+            if (!$destinataire) {
+                return redirect()->back()->with('error', 'Destinataire non trouvé');
+            }
+            $destinataire['solde'] += $montant;
+            $clientModel->update($destinataire['id_client'], ['solde' => $destinataire['solde']]);
         }
 
         $db = \Config\Database::connect();
