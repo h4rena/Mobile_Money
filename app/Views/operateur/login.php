@@ -16,24 +16,17 @@
     <p class="login-subtitle">Connectez-vous pour continuer</p>
   </div>
 
-  <?php if (session()->getFlashdata('error')): ?>
-    <div class="alert alert-vola alert-vola-danger">
-      <i class="bi bi-exclamation-triangle"></i>
-      <?= session()->getFlashdata('error') ?>
-    </div>
-  <?php endif; ?>
-
-  <form action="/auth/log" method="post">
-    <label for="numero" class="form-label fw-semibold">Numero de telephone</label>
+  <form action="/auth/log_operateur" method="post">
+    <label for="operateur" class="form-label fw-semibold">Nom operateur</label>
     <div class="input-group mb-4">
       <span class="input-group-text"><i class="bi bi-phone"></i></span>
-      <input type="tel" class="form-control" id="numero" name="numero" placeholder="034 00 000 00" required autofocus>
+      <input type="text" class="form-control" id="operateur" name="operateur" placeholder="Nom de l'operateur" required autofocus>
+      <input type="password" class="form-control" name="mdp" placeholder="Mot de passe" required>
     </div>
     <button type="submit" class="btn btn-vola btn-vola-green w-100 btn-lg">
       <i class="bi bi-box-arrow-in-right me-1"></i>Se connecter
     </button>
   </form>
-  <a href="/operateur/login">Operateur</a>
 </div>
 
 </body>
