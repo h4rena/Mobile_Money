@@ -14,6 +14,8 @@ Base
     -situations gain
     -situation compte clients
 
+Suivant -> Créer les vues (operateur/, type_operation/, montant_frais/, operation/)
+
 Cote Client
     Tache 3945
         -login avec numero de telephone
@@ -24,3 +26,8 @@ Cote Client
             -faire un retrait(automatique)
             -faire un transfer
             -hitsorique
+
+tache1 de 3958 :
+    -Models: OperateurModel, TypeOperationModel, MontantFraisModel, OperationModel
+    -Controllers: Operateur, TypeOperation, MontantFrais, Operation (CRUD complet)
+    -Routes ajoutées dans Routes.php

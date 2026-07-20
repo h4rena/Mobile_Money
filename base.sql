@@ -39,3 +39,5 @@ CREATE TABLE operations(
     FOREIGN KEY (id_type_operation) REFERENCES type_operation(id_type_operation) ON DELETE CASCADE,
     FOREIGN KEY (id_client) REFERENCES clients(id_client) ON DELETE CASCADE
 );
+
+INSERT INTO prefixes (prefixe) VALUES ('033'), ('034'), ('035'), ('036'), ('037'), ('038'), ('039');
