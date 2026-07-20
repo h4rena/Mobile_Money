@@ -1,40 +1,74 @@
-V1
+# V1 — MobileMoney
 
-Tache 3945 && 3958
-##Cote operateur
+---
 
-Base
-    -prefixes valable de l'operateur
-        -Table prefixe
-        -Table operateurs
-    -Creation de type d'operation
-        -Table operations
-        -Type operation
-        -Bareme_frais(Montant1,montant2,frais)
-    -situations gain
-    -situation compte clients
+## Tache 3945 & 3958 — Modeles & Controllers (CRUD)
 
-Suivant -> Créer les vues (operateur/, type_operation/, montant_frais/, operation/)
+### Models crees
+- [x] OperateurModel (table: operateurs)
+- [x] TypeOperationModel (table: type_operation)
+- [x] MontantFraisModel (table: montant_frais)
+  - [x] getFraisByMontant() — recupere les frais selon le montant
+- [x] OperationModel (table: operations)
+- [x] ClientModel (table: clients)
+  - [x] getClientByNumero() — cherche client par numero
 
-Cote Client
-    Tache 3945
-        -login avec numero de telephone
-            -routes.php
-                -/login
-                -/log
-            -AuthController.php
-                -login()
-                -log()
-            views:login.php
-    Tache 3958
-        -operation
-            -voir solde
-            -faire un depot(automatique) [sans frais]
-            -faire un retrait(automatique) [avec frais] [retirer dans le compte]
-            -faire un transfer [avec frais ] [retirer dans le compte]
-            -historique (a partir de operation)
+### Controllers crees (CRUD complet)
+- [x] OperateurController — index, create, store, show, edit, update, delete
+- [x] TypeOperationController — index, create, store, show, edit, update, delete
+- [x] MontantFraisController — index, create, store, show, edit, update, delete
+- [x] OperationController — index, show, store, edit, update, delete
 
-tache1 de 3958 :
-    -Models: OperateurModel, TypeOperationModel, MontantFraisModel, OperationModel
-    -Controllers: Operateur, TypeOperation, MontantFrais, Operation (CRUD complet)
-    -Routes ajoutées dans Routes.php
+### Routes CRUD ajoutees
+- [x] Routes dans Routes.php
+
+---
+## Tache 3945 — Cote Client 
+
+### Authentification
+- [x] AuthController — login(), log(), dashboard(), logout()
+- [x] Stockage du client en session
+- [x] Routes: /, /auth/log, /auth/logout, /dashboard
+
+
+### Dashboard
+- [x] Solde dynamique du client
+- [x] Boutons -> /depot, /retrait, /transfert
+- [x] Deconnexion -> /auth/logout
+
+
+
+## Tache 3958 — Cote Client
+
+### Operations
+- [x] Depot (sans frais)
+  - [x] depot.php — formulaire (id_client, id_type_operation=1, montant)
+  - [x] logique store(): solde += montant
+- [x] Retrait (avec frais)
+  - [x] retrait.php — formulaire (id_client, id_type_operation=2, montant)
+  - [x] logique store(): solde -= montant + frais
+- [x] Transfert (avec frais)
+  - [x] transfert.php — formulaire (id_client, id_type_operation=3, montant, numero_destinataire)
+  - [x] logique store(): solde emetteur -= montant + frais, solde destinataire += montant
+- [x] Auto-detection operateur par numero
+  - [x] OperateurModel::getOperateurByNumero()
+
+### Routes operations
+- [x] GET /depot, /retrait, /transfert
+- [x] POST /operations/store
+
+---
+
+## Tache 3945 & 3958 — Cote Operateur
+
+### Base
+- [x] Tables: prefixes, operateurs
+- [x] Tables: operations, type_operation, montant_frais
+
+---
+
+## Tache 3945 — Cote Client (login)
+
+- [x] AuthController — login(), log()
+- [x] Routes: /, /auth/log
+- [x] Vue: login.php
