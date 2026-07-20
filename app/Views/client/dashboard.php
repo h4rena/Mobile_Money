@@ -22,6 +22,7 @@
         <li class="nav-item"><a class="nav-link active" href="/dashboard"><i class="bi bi-grid-1x2-fill me-1"></i>Tableau de bord</a></li>
         <li class="nav-item"><a class="nav-link" href="/client/solde"><i class="bi bi-eye me-1"></i>Voir solde</a></li>
         <li class="nav-item"><a class="nav-link" href="/transfert"><i class="bi bi-send me-1"></i>Envoyer</a></li>
+        <li class="nav-item"><a class="nav-link" href="/operateur/situation"><i class="bi bi-send me-1"></i>situation</a></li>
       </ul>
       <div class="d-flex align-items-center gap-2">
         <div class="avatar"><?= strtoupper(substr($client['nom_client'], 0, 1)) ?></div>
