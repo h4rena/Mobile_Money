@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\OperateurModel;
 
-class Operateur extends BaseController
+class OperateurController extends BaseController
 {
     private function getOperateurModel()
     {

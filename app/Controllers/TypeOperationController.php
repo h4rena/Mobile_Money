@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\TypeOperationModel;
 
-class TypeOperation extends BaseController
+class TypeOperationController extends BaseController
 {
     private function getTypeOperationModel()
     {

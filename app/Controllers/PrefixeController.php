@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\PrefixeModel;
 
-class Prefixe extends BaseController
+class PrefixeController extends BaseController
 {
 
     private function getPrefixebyIdModel($id)

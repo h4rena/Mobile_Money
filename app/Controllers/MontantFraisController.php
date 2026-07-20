@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\MontantFraisModel;
 
-class MontantFrais extends BaseController
+class MontantFraisController extends BaseController
 {
     private function getMontantFraisModel()
     {

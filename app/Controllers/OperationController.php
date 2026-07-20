@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\OperationModel;
 
-class Operation extends BaseController
+class OperationController extends BaseController
 {
     private function getOperationModel()
     {
