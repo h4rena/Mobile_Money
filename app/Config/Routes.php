@@ -32,3 +32,10 @@ $routes->get('/montant-frais/(:num)/edit', 'MontantFraisController::edit/$1');
 $routes->post('/montant-frais/(:num)/update', 'MontantFraisController::update/$1');
 $routes->post('/montant-frais/(:num)/delete', 'MontantFraisController::delete/$1');
 
+$routes->get('/commission', 'CommissionController::index');
+$routes->get('/commission/create', 'CommissionController::create');
+$routes->post('/commission/store', 'CommissionController::store');
+$routes->get('/commission/(:num)/edit', 'CommissionController::edit/$1');
+$routes->post('/commission/(:num)/update', 'CommissionController::update/$1');
+$routes->post('/commission/(:num)/delete', 'CommissionController::delete/$1');
+
