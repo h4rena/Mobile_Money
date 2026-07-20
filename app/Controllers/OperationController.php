@@ -220,13 +220,13 @@ class OperationController extends BaseController
             }
 
             $operationModel->insert([
-                'id_operateur'      => $operateurEmetteur['id_operateur'],
-                'id_type_operation' => $id_type_operation,
-                'id_client'         => $id_client,
-                'montant'           => $montant,
-                'frais'             => $frais,
-                'date_operation'    => $dateOp,
-            ]);
+                    'id_operateur'      => $operateurEmetteur['id_operateur'],
+                    'id_type_operation' => $id_type_operation,
+                    'id_client'         => $id_client,
+                    'montant'           => $montant,
+                    'frais'             => $frais,
+                    'date_operation'    => $dateOp,
+                ]);
 
             $db->transComplete();
 
