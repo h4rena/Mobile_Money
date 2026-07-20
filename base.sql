@@ -18,7 +18,8 @@ CREATE TABLE type_operation(
 CREATE TABLE clients(
     id_clients INTEGER PRIMARY KEY AUTOINCREMENT,
     nom_clients TEXT NOT NULL,
-    numero TEXT NOT NULL
+    numero TEXT NOT NULL,
+    solde REAL NOT NULL
 );
 
 CREATE TABLE montant_frais(
@@ -35,9 +36,8 @@ CREATE TABLE operations(
     id_type_operation INTEGER,
     id_client INTEGER,
     montant REAL NOT NULL,
+    date_operation DATETIME NOT NULL,
     FOREIGN KEY (id_operateur) REFERENCES operateurs(id_operateur) ON DELETE CASCADE,
     FOREIGN KEY (id_type_operation) REFERENCES type_operation(id_type_operation) ON DELETE CASCADE,
     FOREIGN KEY (id_client) REFERENCES clients(id_client) ON DELETE CASCADE
 );
-
-INSERT INTO prefixes (prefixe) VALUES ('033'), ('034'), ('035'), ('036'), ('037'), ('038'), ('039');
