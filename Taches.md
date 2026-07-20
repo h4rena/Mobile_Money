@@ -36,6 +36,26 @@
 - [x] Boutons -> /depot, /retrait, /transfert
 - [x] Deconnexion -> /auth/logout
 
+### Historique
+- [x] Vue historique operations (client)
+- [x] Lister les operations du client connecte
+- [x] Filtrer par type (depot, retrait, transfert)
+- [x] Afficher date, type, montant, frais
+
+### Vues Operateur
+- [x] Vue liste operateurs (index)
+- [x] Vue ajouter un operateur (create)
+- [x] Vue modifier un operateur (edit)
+- [x] Vue detail d'un operateur (show)
+- [x] Vue liste type_operation (index)
+- [x] Vue ajouter un type_operation (create)
+- [x] Vue modifier un type_operation (edit)
+- [x] Vue liste montant_frais (index)
+- [x] Vue ajouter un montant_frais (create)
+- [x] Vue modifier un montant_frais (edit)
+- [x] Vue liste operations (index)
+- [x] Vue detail d'une operation (show)
+
 
 
 ## Tache 3958 — Cote Client
@@ -72,3 +92,31 @@
 - [x] AuthController — login(), log()
 - [x] Routes: /, /auth/log
 - [x] Vue: login.php
+
+---
+
+## Tache 3945 & 3958 — Design
+
+### Bootstrap local
+- [x] Copie Bootstrap 5.3.8 (CSS + JS) dans public/assets/
+- [x] Copie Bootstrap Icons 1.13.1 (CSS + fonts) dans public/assets/css/fonts/
+- [x] Suppression de toutes les dependances CDN
+
+### CSS custom (style.css)
+- [x] Variables CSS (couleurs, radius, shadows)
+- [x] Navbar gradiente vert
+- [x] Cards avec coins arrondis et ombres
+- [x] Boutons avec degrades et effets hover
+- [x] Input groups stylises
+- [x] Tableaux epures avec hover
+- [x] Alerts personnalisees (vert/rouge)
+- [x] Avatar rond avec initiale doree
+- [x] Animations fade-in
+
+### Vues redesignees
+- [x] login.php — fond gradiente anime, card glassmorphism
+- [x] dashboard.php — navbar, stat cards, actions rapides, tableau transactions
+- [x] depot.php — card centree, icone verte, info client
+- [x] retrait.php — card centree, icone rouge, theme rouge
+- [x] transfert.php — card centree, icone bleue, theme bleu
+- [x] solde.php — card degradee verte, solde en gros, design premium
