@@ -42,6 +42,13 @@ CREATE TABLE operations(
     FOREIGN KEY (id_client) REFERENCES clients(id_client) ON DELETE CASCADE
 );
 
+CREATE TABLE historique_operations(
+    id_historique INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_operation INTEGER,
+    date_historique DATETIME NOT NULL,
+    FOREIGN KEY (id_operation) REFERENCES operations(id_operation) ON DELETE CASCADE
+);
+
 INSERT INTO prefixes (prefixe) VALUES
 ('032'),
 ('033'),
