@@ -58,57 +58,57 @@
     </div>
   </div>
 
-  <div class="card-vola mb-4">
-    <div class="card-header-vola d-flex justify-content-between align-items-center">
-      <span><i class="bi bi-table me-1"></i>Détail par opérateur et type d'opération</span>
-    </div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table-vola">
-          <thead>
-            <tr>
-              <th>Opérateur</th>
-              <th>Type d'opération</th>
-              <th class="text-end">Nb opérations</th>
-              <th class="text-end">Total montant</th>
-              <th class="text-end">Total frais (gains)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php if (empty($gains)): ?>
-              <tr>
-                <td colspan="5" class="text-center text-muted py-4"><i class="bi bi-inbox me-1"></i>Aucune opération de retrait ou transfert</td>
-              </tr>
-            <?php else: ?>
-              <?php foreach ($gains as $g): ?>
-                <tr>
-                  <td class="fw-semibold"><?= esc($g['nom_operateur']) ?></td>
-                  <td>
-                    <?php if ($g['type_operation'] === 'Retrait'): ?>
-                      <span class="badge" style="background:rgba(244,162,97,0.15);color:var(--vola-gold);"><i class="bi bi-arrow-up-right me-1"></i><?= esc($g['type_operation']) ?></span>
-                    <?php else: ?>
-                      <span class="badge" style="background:rgba(37,99,235,0.1);color:var(--vola-blue);"><i class="bi bi-send me-1"></i><?= esc($g['type_operation']) ?></span>
-                    <?php endif; ?>
-                  </td>
-                  <td class="text-end"><?= $g['nombre_operations'] ?></td>
-                  <td class="text-end"><?= number_format($g['total_montant'], 0, ',', ' ') ?> Ar</td>
-                  <td class="text-end fw-bold text-success"><?= number_format($g['total_frais'], 0, ',', ' ') ?> Ar</td>
-                </tr>
-              <?php endforeach; ?>
-            <?php endif; ?>
-          </tbody>
-          <?php if (!empty($gains)): ?>
-            <tfoot>
-              <tr class="fw-bold">
-                <td colspan="4" class="text-end">Total gains :</td>
-                <td class="text-end text-success"><?= number_format($totalGains, 0, ',', ' ') ?> Ar</td>
-              </tr>
-            </tfoot>
-          <?php endif; ?>
-        </table>
+  <?php if (empty($gainsParOperateur)): ?>
+    <div class="card-vola mb-4">
+      <div class="card-body text-center text-muted py-5">
+        <i class="bi bi-inbox" style="font-size:2.5rem;"></i>
+        <p class="mt-3 mb-0">Aucune opération de retrait ou transfert</p>
       </div>
     </div>
-  </div>
+  <?php else: ?>
+    <?php foreach ($gainsParOperateur as $nomOp => $lignes): ?>
+      <div class="card-vola mb-4">
+        <div class="card-header-vola d-flex justify-content-between align-items-center">
+          <span class="fw-bold">
+            <i class="bi bi-building me-1"></i><?= esc($nomOp) ?>
+          </span>
+          <span class="badge" style="background:rgba(11,110,79,0.1);color:var(--vola-green);font-size:0.85rem;font-weight:600;">
+            <i class="bi bi-cash-stack me-1"></i><?= number_format($totalParOperateur[$nomOp], 0, ',', ' ') ?> Ar
+          </span>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table-vola mb-0">
+              <thead>
+                <tr>
+                  <th>Type d'opération</th>
+                  <th class="text-end">Nb opérations</th>
+                  <th class="text-end">Total montant</th>
+                  <th class="text-end">Gains (frais)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($lignes as $g): ?>
+                  <tr>
+                    <td>
+                      <?php if ($g['type_operation'] === 'Retrait'): ?>
+                        <span class="badge" style="background:rgba(244,162,97,0.15);color:var(--vola-gold);"><i class="bi bi-arrow-up-right me-1"></i><?= esc($g['type_operation']) ?></span>
+                      <?php else: ?>
+                        <span class="badge" style="background:rgba(37,99,235,0.1);color:var(--vola-blue);"><i class="bi bi-send me-1"></i><?= esc($g['type_operation']) ?></span>
+                      <?php endif; ?>
+                    </td>
+                    <td class="text-end"><?= $g['nombre_operations'] ?></td>
+                    <td class="text-end"><?= number_format($g['total_montant'], 0, ',', ' ') ?> Ar</td>
+                    <td class="text-end fw-bold text-success"><?= number_format($g['total_frais'], 0, ',', ' ') ?> Ar</td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <?php endforeach; ?>
+  <?php endif; ?>
 
   <div class="card-vola mb-4">
     <div class="card-header-vola d-flex justify-content-between align-items-center">

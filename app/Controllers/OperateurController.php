@@ -20,13 +20,27 @@ class OperateurController extends BaseController
         $totalGains = $operateurModel->getGainsTotaux();
         $baremes = $montantFraisModel->orderBy('montant1', 'ASC')->findAll();
 
+        $gainsParOperateur = [];
+        $totalParOperateur = [];
+        foreach ($gains as $g) {
+            $nom = $g['nom_operateur'];
+            if (!isset($gainsParOperateur[$nom])) {
+                $gainsParOperateur[$nom] = [];
+                $totalParOperateur[$nom] = 0;
+            }
+            $gainsParOperateur[$nom][] = $g;
+            $totalParOperateur[$nom] += $g['total_frais'];
+        }
+
         $operateur = session()->get('operateur');
 
         return view('operateur/situation', [
-            'gains'      => $gains,
-            'totalGains' => $totalGains,
-            'baremes'    => $baremes,
-            'operateur'  => $operateur,
+            'gains'              => $gains,
+            'gainsParOperateur'  => $gainsParOperateur,
+            'totalParOperateur'  => $totalParOperateur,
+            'totalGains'         => $totalGains,
+            'baremes'            => $baremes,
+            'operateur'          => $operateur,
         ]);
     }
 
