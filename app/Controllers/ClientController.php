@@ -12,8 +12,9 @@ class ClientController extends BaseController
     }
     public function solde()
     {
+        $session = session()->get('client');
+        $numero = $session['numero'];
         $client = new ClientModel();
-        $numero = session()->get('numero');
         $solde = $client->getSolde($numero);
 
         return view('client/solde', ['solde' => $solde]);
