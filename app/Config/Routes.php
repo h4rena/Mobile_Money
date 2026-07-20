@@ -5,5 +5,6 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
-$routes->get('/list', 'EtudiantController::index');
+
+$routes->get('/', 'AuthController::login');
+$routes->post('/auth/log', 'AuthController::log');
