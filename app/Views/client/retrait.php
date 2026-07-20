@@ -6,32 +6,39 @@
     <title>Retrait — Vola+</title>
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
 </head>
-<body class="bg-light">
+<body>
 
-<nav class="navbar navbar-dark bg-success shadow-sm">
+<nav class="navbar navbar-vola">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="/dashboard">Vola<span class="text-warning">+</span></a>
-    <a href="/dashboard" class="btn btn-outline-light btn-sm"><i class="bi bi-arrow-left me-1"></i>Retour</a>
+    <a class="navbar-brand brand" href="/dashboard">Vola<span class="plus">+</span></a>
+    <a href="/dashboard" class="btn btn-sm" style="color:#fff; border:1px solid rgba(255,255,255,0.3); border-radius:10px;"><i class="bi bi-arrow-left me-1"></i>Retour</a>
   </div>
 </nav>
 
-<div class="container py-5">
+<div class="container py-5 fade-in">
   <div class="row justify-content-center">
     <div class="col-sm-8 col-md-6 col-lg-4">
-      <div class="card border-0 shadow">
+
+      <div class="card-vola">
         <div class="card-body p-4">
-          <h4 class="fw-bold text-danger mb-3"><i class="bi bi-arrow-down-left-circle me-1"></i>Effectuer un retrait</h4>
+          <div class="text-center mb-4">
+            <div class="stat-icon red mx-auto mb-2" style="width:56px;height:56px;font-size:1.5rem;">
+              <i class="bi bi-arrow-down-left-circle"></i>
+            </div>
+            <h5 class="fw-bold">Effectuer un retrait</h5>
+          </div>
 
           <?php if (session()->getFlashdata('error')): ?>
-            <div class="alert alert-danger py-2"><i class="bi bi-exclamation-triangle me-1"></i><?= session()->getFlashdata('error') ?></div>
+            <div class="alert alert-vola alert-vola-danger"><i class="bi bi-exclamation-triangle"></i><?= session()->getFlashdata('error') ?></div>
           <?php endif; ?>
 
           <?php if (session()->getFlashdata('success')): ?>
-            <div class="alert alert-success py-2"><i class="bi bi-check-circle me-1"></i><?= session()->getFlashdata('success') ?></div>
+            <div class="alert alert-vola alert-vola-success"><i class="bi bi-check-circle"></i><?= session()->getFlashdata('success') ?></div>
           <?php endif; ?>
 
-          <div class="bg-danger bg-opacity-10 rounded p-3 mb-3 text-center">
+          <div class="client-info red">
             <small class="text-muted">Client</small>
             <div class="fw-semibold"><?= esc($client['nom_client']) ?> — <?= esc($client['numero']) ?></div>
             <small class="text-muted">Solde actuel</small>
@@ -43,18 +50,19 @@
             <input type="hidden" name="id_type_operation" value="2">
 
             <label for="montant" class="form-label fw-semibold">Montant du retrait (Ar)</label>
-            <div class="input-group mb-3">
-              <span class="input-group-text"><i class="bi bi-cash"></i></span>
+            <div class="input-group mb-4">
+              <span class="input-group-text"><i class="bi bi-cash-stack"></i></span>
               <input type="number" class="form-control" name="montant" id="montant" min="0" placeholder="Entrez le montant" required>
             </div>
 
-            <button type="submit" class="btn btn-danger w-100 btn-lg mb-2">
+            <button type="submit" class="btn btn-vola btn-vola-red w-100 btn-lg mb-2">
               <i class="bi bi-arrow-down-left-circle me-1"></i>Effectuer le retrait
             </button>
             <a href="/dashboard" class="btn btn-outline-secondary w-100">Annuler</a>
           </form>
         </div>
       </div>
+
     </div>
   </div>
 </div>
