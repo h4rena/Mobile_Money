@@ -1,6 +1,6 @@
 # V1 — MobileMoney
 
----
+
 
 ## Tache 3945 & 3958 — Modeles & Controllers (CRUD)
 
@@ -22,7 +22,7 @@
 ### Routes CRUD ajoutees
 - [x] Routes dans Routes.php
 
----
+
 ## Tache 3945 — Cote Client 
 
 ### Authentification
@@ -77,7 +77,6 @@
 - [x] GET /depot, /retrait, /transfert
 - [x] POST /operations/store
 
----
 
 ## Tache 3945 & 3958 — Cote Operateur
 
@@ -85,15 +84,12 @@
 - [x] Tables: prefixes, operateurs
 - [x] Tables: operations, type_operation, montant_frais
 
----
-
 ## Tache 3945 — Cote Client (login)
 
 - [x] AuthController — login(), log()
 - [x] Routes: /, /auth/log
 - [x] Vue: login.php
 
----
 
 ## Tache 3945 & 3958 — Design
 
@@ -120,3 +116,16 @@
 - [x] retrait.php — card centree, icone rouge, theme rouge
 - [x] transfert.php — card centree, icone bleue, theme bleu
 - [x] solde.php — card degradee verte, solde en gros, design premium
+
+
+# V2    
+
+## Taches 3945
+- [] separation du cote operateur et client
+- [] login operateur et client
+
+## Taches 3958
+- [x] Commission inter-operateurs
+  - [x] Table commission (source, dest, taux)
+  - [x] CommissionModel::getTaux()
+  - [x] Logique dans store(): frais_base + commission si inter-operateur

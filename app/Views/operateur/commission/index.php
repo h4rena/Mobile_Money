@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Barèmes des frais — Vola+</title>
+<title>Commissions — Vola+</title>
 <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 <link href="/assets/css/bootstrap-icons.min.css" rel="stylesheet">
 <link href="/assets/css/style.css" rel="stylesheet">
@@ -19,8 +19,8 @@
     <div class="collapse navbar-collapse" id="navOp">
       <ul class="navbar-nav me-auto">
         <li class="nav-item"><a class="nav-link" href="/operateur/situation"><i class="bi bi-graph-up me-1"></i>Situation</a></li>
-        <li class="nav-item"><a class="nav-link" href="/commission"><i class="bi bi-percent me-1"></i>Commissions</a></li>
-        <li class="nav-item"><a class="nav-link active" href="/montant-frais"><i class="bi bi-info-circle me-1"></i>Barèmes</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/commission"><i class="bi bi-percent me-1"></i>Commissions</a></li>
+        <li class="nav-item"><a class="nav-link" href="/montant-frais"><i class="bi bi-info-circle me-1"></i>Barèmes</a></li>
       </ul>
       <div class="d-flex align-items-center gap-2">
         <a href="/auth/logout" class="text-white text-decoration-none" title="Deconnexion"><i class="bi bi-box-arrow-left"></i></a>
@@ -33,10 +33,10 @@
 
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h4 class="fw-bold mb-0"><i class="bi bi-list-ul text-success me-2"></i>Barèmes des frais</h4>
-      <small class="text-muted">Fourchettes de montant et frais associés</small>
+      <h4 class="fw-bold mb-0"><i class="bi bi-percent text-success me-2"></i>Commissions inter-opérateurs</h4>
+      <small class="text-muted">Taux appliqués lors des transferts entre opérateurs</small>
     </div>
-    <a href="/montant-frais/create" class="btn btn-vola btn-vola-green">
+    <a href="/commission/create" class="btn btn-vola btn-vola-green">
       <i class="bi bi-plus-circle me-1"></i>Ajouter
     </a>
   </div>
@@ -54,28 +54,38 @@
         <table class="table-vola">
           <thead>
             <tr>
-              <th>Montant min</th>
-              <th>Montant max</th>
-              <th class="text-end">Frais</th>
-              <th class="text-end" style="width:120px;">Actions</th>
+              <th>Opérateur source</th>
+              <th>Opérateur destination</th>
+              <th class="text-end">Taux (%)</th>
+              <th class="text-end" style="width:140px;">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <?php if (empty($montantFrais)): ?>
+            <?php if (empty($commissions)): ?>
               <tr>
-                <td colspan="4" class="text-center text-muted py-4"><i class="bi bi-inbox me-1"></i>Aucun barème configuré</td>
+                <td colspan="4" class="text-center text-muted py-4">
+                  <i class="bi bi-inbox me-1"></i>Aucune commission configurée
+                </td>
               </tr>
             <?php else: ?>
-              <?php foreach ($montantFrais as $mf): ?>
+              <?php foreach ($commissions as $c): ?>
                 <tr>
-                  <td><?= number_format($mf['montant1'], 0, ',', ' ') ?> Ar</td>
-                  <td><?= number_format($mf['montant2'], 0, ',', ' ') ?> Ar</td>
-                  <td class="text-end fw-semibold"><?= number_format($mf['frais'], 0, ',', ' ') ?> Ar</td>
+                  <td>
+                    <i class="bi bi-arrow-right-circle text-success me-1"></i>
+                    <?= esc($operateursMap[$c['id_operateur_source']] ?? 'Inconnu') ?>
+                  </td>
+                  <td>
+                    <i class="bi bi-arrow-down-circle text-primary me-1"></i>
+                    <?= esc($operateursMap[$c['id_operateur_dest']] ?? 'Inconnu') ?>
+                  </td>
                   <td class="text-end">
-                    <a href="/montant-frais/<?= $mf['id_montant_frais'] ?>/edit" class="btn btn-sm" style="color:var(--vola-blue);border:1px solid var(--vola-border);border-radius:8px;">
+                    <span class="badge" style="background:rgba(11,110,79,0.1);color:var(--vola-green);font-size:0.95rem;font-weight:700;"><?= $c['taux'] ?>%</span>
+                  </td>
+                  <td class="text-end">
+                    <a href="/commission/<?= $c['id_commission'] ?>/edit" class="btn btn-sm" style="color:var(--vola-blue);border:1px solid var(--vola-border);border-radius:8px;">
                       <i class="bi bi-pencil"></i>
                     </a>
-                    <form action="/montant-frais/<?= $mf['id_montant_frais'] ?>/delete" method="post" class="d-inline" onsubmit="return confirm('Supprimer ce barème ?')">
+                    <form action="/commission/<?= $c['id_commission'] ?>/delete" method="post" class="d-inline" onsubmit="return confirm('Supprimer cette commission ?')">
                       <?= csrf_field() ?>
                       <button type="submit" class="btn btn-sm" style="color:var(--vola-red);border:1px solid var(--vola-border);border-radius:8px;">
                         <i class="bi bi-trash"></i>

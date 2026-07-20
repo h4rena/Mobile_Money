@@ -7,6 +7,7 @@ use App\Models\ClientModel;
 use App\Models\TypeOperationModel;
 use App\Models\OperateurModel;
 use App\Models\MontantFraisModel;
+use App\Models\CommissionModel;
 
 class OperationController extends BaseController
 {
@@ -63,58 +64,86 @@ class OperationController extends BaseController
         $id_type_operation = $this->request->getPost('id_type_operation');
         $montant           = (float) $this->request->getPost('montant');
 
-        $clientModel    = new ClientModel();
-        $typeOpModel    = new TypeOperationModel();
-        $operationModel = new OperationModel();
-        $operateurModel = new OperateurModel();
+        $clientModel       = new ClientModel();
+        $typeOpModel       = new TypeOperationModel();
+        $operationModel    = new OperationModel();
+        $operateurModel    = new OperateurModel();
         $montantFraisModel = new MontantFraisModel();
+        $commissionModel   = new CommissionModel();
 
-        $typeOp = $typeOpModel->find($id_type_operation);
         $client = $clientModel->find($id_client);
-        $frais = 0;
-
         if (!$client) {
             return redirect()->back()->with('error', 'Client non trouvé');
         }
 
-        $operateur = $operateurModel->getOperateurByNumero($client['numero']);
-        if (!$operateur) {
-            return redirect()->back()->with('error', 'Opérateur non trouvé pour ce numéro');
+        $typeOp = $typeOpModel->find($id_type_operation);
+        if (!$typeOp) {
+            return redirect()->back()->with('error', 'Type d\'opération non trouvé');
         }
 
         if ($montant <= 0) {
             return redirect()->back()->with('error', 'Le montant doit être supérieur à 0');
         }
 
-        if ($typeOp['libelle'] === 'Retrait' || $typeOp['libelle'] === 'Transfert') {
-        $ligne = $montantFraisModel->getFraisByMontant($montant);
-        $frais = $ligne ? $ligne['frais'] : 0;
+        $operateurEmetteur = $operateurModel->getOperateurByNumero($client['numero']);
+        if (!$operateurEmetteur) {
+            return redirect()->back()->with('error', 'Opérateur non trouvé pour ce numéro');
         }
 
-        $nouveauSolde = $client['solde'];
+        $frais = 0;
 
         if ($typeOp['libelle'] === 'Depot') {
-            $nouveauSolde += $montant;
+            $nouveauSolde = $client['solde'] + $montant;
 
         } elseif ($typeOp['libelle'] === 'Retrait') {
+            $ligne = $montantFraisModel->getFraisByMontant($montant);
+            $frais = $ligne ? $ligne['frais'] : 0;
+
             if ($client['solde'] < $montant + $frais) {
                 return redirect()->back()->with('error', 'Solde insuffisant');
             }
-            $nouveauSolde -= $montant + $frais;
+            $nouveauSolde = $client['solde'] - $montant - $frais;
 
         } elseif ($typeOp['libelle'] === 'Transfert') {
-            if ($client['solde'] < $montant + $frais) {
-                return redirect()->back()->with('error', 'Solde insuffisant');
-            }
-            $nouveauSolde -= $montant + $frais;
-
             $numero_dest = $this->request->getPost('numero_destinataire');
+            if (!$numero_dest) {
+                return redirect()->back()->with('error', 'Numéro du destinataire requis');
+            }
+
             $destinataire = $clientModel->getClientByNumero($numero_dest);
             if (!$destinataire) {
                 return redirect()->back()->with('error', 'Destinataire non trouvé');
             }
+
+            $operateurDest = $operateurModel->getOperateurByNumero($destinataire['numero']);
+            if (!$operateurDest) {
+                return redirect()->back()->with('error', 'Opérateur du destinataire non trouvé');
+            }
+
+            $ligne = $montantFraisModel->getFraisByMontant($montant);
+            $frais = $ligne ? $ligne['frais'] : 0;
+
+            if ($operateurEmetteur['id_operateur'] !== $operateurDest['id_operateur']) {
+                $commission = $commissionModel->getTaux(
+                    $operateurEmetteur['id_operateur'],
+                    $operateurDest['id_operateur']
+                );
+                if ($commission) {
+                    $frais += $montant * ($commission['taux'] / 100);
+                }
+            }
+
+            if ($client['solde'] < $montant + $frais) {
+                return redirect()->back()->with('error', 'Solde insuffisant');
+            }
+
+            $nouveauSolde = $client['solde'] - $montant - $frais;
+
             $destinataire['solde'] += $montant;
             $clientModel->update($destinataire['id_client'], ['solde' => $destinataire['solde']]);
+
+        } else {
+            $nouveauSolde = $client['solde'];
         }
 
         $db = \Config\Database::connect();
@@ -123,10 +152,11 @@ class OperationController extends BaseController
         $clientModel->update($id_client, ['solde' => $nouveauSolde]);
 
         $operationModel->insert([
-            'id_operateur'      => $operateur['id_operateur'],
+            'id_operateur'      => $operateurEmetteur['id_operateur'],
             'id_type_operation' => $id_type_operation,
             'id_client'         => $id_client,
             'montant'           => $montant,
+            'frais'             => $frais,
             'date_operation'    => date('Y-m-d H:i:s'),
         ]);
 
