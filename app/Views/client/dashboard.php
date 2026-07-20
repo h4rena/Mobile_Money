@@ -21,7 +21,7 @@
         <li class="nav-item"><a class="nav-link active" href="/dashboard"><i class="bi bi-grid-1x2-fill me-1"></i>Tableau de bord</a></li>
         <li class="nav-item"><a class="nav-link" href="/client/solde"><i class="bi bi-eye me-1"></i>Voir solde</a></li>
         <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-send me-1"></i>Envoyer</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-receipt me-1"></i>Payer</a></li>
+        <li class="nav-item"><a class="nav-link" href="/operateur/situation"><i class="bi bi-graph-up me-1"></i>Gains opérateur</a></li>
       </ul>
       <div class="d-flex align-items-center text-white">
         <span class="me-2"><i class="bi bi-bell"></i></span>
@@ -70,9 +70,7 @@
             <button class="btn btn-outline-danger" onclick="window.location.href='/retrait'">
               <i class="bi bi-arrow-down-left-circle me-1"></i>Retirer
             </button>
-            <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#actionModal" data-action="Payer une facture">
-              <i class="bi bi-receipt me-1"></i>Payer une facture
-            </button>
+
           </div>
         </div>
       </div>
@@ -102,7 +100,7 @@
                         <i class="bi bi-<?= $isDepot ? 'arrow-down-left text-success' : 'arrow-up-right text-danger' ?> me-2"></i>
                         <?= esc($op['type_libelle']) ?>
                       </td>
-                      <td class="text-muted small"><?= date('d M Y', strtotime($op['date_operation'])) ?></td>
+                      <td class="text-muted small"><?= date('d M Y H:i', strtotime($op['date_operation'])) ?></td>
                       <td class="text-end fw-semibold <?= $isDepot ? 'text-success' : 'text-danger' ?>">
                         <?= $isDepot ? '+' : '- ' ?><?= number_format($op['montant'], 0, ',', ' ') ?> Ar
                       </td>
