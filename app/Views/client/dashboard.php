@@ -24,8 +24,15 @@
   <!-- Barre latérale -->
   <aside class="sidebar" id="sidebar">
     <div class="brand-mark">Vola<span class="plus">+</span></div>
+    <div class="sidebar-user">
+      <div class="avatar-circle" id="sidebarAvatarLetter">R</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name" id="sidebarUserName"><?php echo $client['nom_client']; ?></div>
+        <div class="sidebar-user-number" id="sidebarUserNumber"><?php echo $client['numero']; ?></div>
+      </div>
     <ul class="nav-vola">
       <li><a href="#" class="active"><i class="bi bi-grid-1x2-fill"></i>Tableau de bord</a></li>
+      <li><a href="/client/solde"><i class="bi bi-arrow-left-right"></i>Voir solde</a></li>
       <li><a href="#"><i class="bi bi-arrow-left-right"></i>Transactions</a></li>
       <li><a href="#"><i class="bi bi-send"></i>Envoyer de l'argent</a></li>
       <li><a href="#"><i class="bi bi-receipt"></i>Payer une facture</a></li>

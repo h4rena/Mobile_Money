@@ -17,7 +17,13 @@ class AuthController extends BaseController
         $client = $clientModel->getClientByNumero($numero);
 
         if ($client) {
+<<<<<<< HEAD
             session()->set('client', $client);
+=======
+            $session = session();
+            $session->set('numero', $client['numero']);
+            $session->set('client', $client);
+>>>>>>> dev
             return view('client/dashboard', ['client' => $client]);
         } else {
             return redirect()->back()->with('error', 'Numéro de téléphone incorrect.');
