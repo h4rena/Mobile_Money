@@ -29,10 +29,10 @@ Cote Client
     Tache 3958
         -operation
             -voir solde
-            -faire un depot(automatique)
-            -faire un retrait(automatique)
-            -faire un transfer
-            -hitsorique
+            -faire un depot(automatique) [sans frais]
+            -faire un retrait(automatique) [avec frais] [retirer dans le compte]
+            -faire un transfer [avec frais ] [retirer dans le compte]
+            -hitsorique (a partir de operation)
 
 tache1 de 3958 :
     -Models: OperateurModel, TypeOperationModel, MontantFraisModel, OperationModel
