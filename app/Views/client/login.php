@@ -33,7 +33,6 @@
       <i class="bi bi-box-arrow-in-right me-1"></i>Se connecter
     </button>
   </form>
-  <a href="/operateur/login">Operateur</a>
 </div>
 
 </body>

@@ -9,9 +9,6 @@ class ClientController extends BaseController
     public function dashboard()
     {
         $session = session()->get('client');
-        if (!$session) {
-            return redirect()->to('/');
-        }
 
         $operationModel = new OperationModel();
         $idClient = $session['id_client'];
