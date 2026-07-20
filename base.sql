@@ -6,7 +6,9 @@ CREATE TABLE prefixes(
 CREATE TABLE users(
     id_user INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT NOT NULL,
-    mot_de_passe TEXT NOT NULL
+    mot_de_passe TEXT NOT NULL,
+    id_operateur INTEGER,
+    FOREIGN KEY (id_operateur) REFERENCES operateurs(id_operateur) ON DELETE SET NULL
 );
 
 CREATE TABLE operateurs(
@@ -78,8 +80,8 @@ INSERT INTO operateurs (id_prefixe, nom_operateur) VALUES
 (3, 'Telma Money'),
 (4, 'MVola');
 
-INSERT INTO users (email, mot_de_passe) VALUES
-('vola@vola.mg', '$2y$12$iCnSzfReumcvQDzNmxXJEugLQUbJoK0HGX9dUuu5fGm0EjOt3vKTa');
+INSERT INTO users (email, mot_de_passe, id_operateur) VALUES
+('vola@vola.mg', '$2y$12$iCnSzfReumcvQDzNmxXJEugLQUbJoK0HGX9dUuu5fGm0EjOt3vKTa', 4);
 
 -- TYPES D'OPERATION
 INSERT INTO type_operation (libelle) VALUES
