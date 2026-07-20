@@ -16,8 +16,8 @@ CREATE TABLE type_operation(
 );
 
 CREATE TABLE clients(
-    id_clients INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom_clients TEXT NOT NULL,
+    id_client INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom_client TEXT NOT NULL,
     numero TEXT NOT NULL,
     solde REAL NOT NULL
 );
@@ -64,7 +64,7 @@ INSERT INTO type_operation (libelle) VALUES
 ('Achat de credit');
 
 -- CLIENTS
-INSERT INTO clients (nom_clients, numero, solde) VALUES
+INSERT INTO clients (nom_client, numero, solde) VALUES
 ('Jean Rakoto', '0321234567', 250000),
 ('Marie Rasoanaivo', '0339876543', 180000),
 ('Paul Andry', '0341122334', 95000),
