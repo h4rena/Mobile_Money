@@ -35,11 +35,12 @@ class AuthController extends BaseController
         $mot_de_passe = $this->request->getPost('mdp');
         $usersOperateurModel = new UsersOperateurModel();
         $user = $usersOperateurModel->getUserByOperateurByEmail($email);
-        if($mot_de_passe == $user['mot_de_passe']){
+
+        if($user && password_verify($mot_de_passe, $user['mot_de_passe'])){
             session()->set('operateur', $user);
             return redirect()->to('/operateur/situation');
-        }else{
-            return redirect()->back()->with('error', 'Nom d\'operateur incorrect.');
+        } else {
+            return redirect()->back()->with('error', 'Nom d\'utilisateur ou mot de passe incorrect.');
         }
     }
 

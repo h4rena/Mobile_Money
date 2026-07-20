@@ -69,7 +69,7 @@ INSERT INTO operateurs (id_prefixe, nom_operateur) VALUES
 (4, 'MVola');
 
 INSERT INTO users (email, mot_de_passe) VALUES
-('vola@vola.mg', 'mdp1');
+('vola@vola.mg', '$2y$12$iCnSzfReumcvQDzNmxXJEugLQUbJoK0HGX9dUuu5fGm0EjOt3vKTa');
 
 -- TYPES D'OPERATION
 INSERT INTO type_operation (libelle) VALUES

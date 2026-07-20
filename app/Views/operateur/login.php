@@ -17,12 +17,22 @@
   </div>
 
   <form action="/auth/log_operateur" method="post">
-    <label for="operateur" class="form-label fw-semibold">Nom operateur</label>
-    <div class="input-group mb-4">
-      <span class="input-group-text"><i class="bi bi-phone"></i></span>
-      <input type="text" class="form-control" id="operateur" name="operateur" placeholder="Nom de l'operateur" required autofocus>
-      <input type="password" class="form-control" name="mdp" placeholder="Mot de passe" required>
+    <label for="operateur" class="form-label fw-semibold">Email</label>
+    <div class="input-group mb-3">
+      <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+      <input type="email" class="form-control" id="operateur" name="operateur" placeholder="Email de l'opérateur" required autofocus>
     </div>
+
+    <label for="mdp" class="form-label fw-semibold">Mot de passe</label>
+    <div class="input-group mb-4">
+      <span class="input-group-text"><i class="bi bi-lock"></i></span>
+      <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Mot de passe" required>
+    </div>
+
+    <?php if (session()->getFlashdata('error')): ?>
+      <div class="alert alert-danger py-2"><?= session()->getFlashdata('error') ?></div>
+    <?php endif; ?>
+
     <button type="submit" class="btn btn-vola btn-vola-green w-100 btn-lg">
       <i class="bi bi-box-arrow-in-right me-1"></i>Se connecter
     </button>

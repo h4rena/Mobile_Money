@@ -19,5 +19,10 @@ class ClientModel extends Model
         $clientData = $client->getClientByNumero($numero);
         return $clientData['solde'];
     }
+
+    public function getAllClients()
+    {
+        return $this->orderBy('nom_client', 'ASC')->findAll();
+    }
 }
 ?>

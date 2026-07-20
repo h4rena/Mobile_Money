@@ -13,6 +13,11 @@
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" href="/dashboard">Vola<span class="text-warning">+</span></a>
     <span class="navbar-text text-white"><i class="bi bi-graph-up me-1"></i>Côté Opérateur</span>
+    <div class="d-flex gap-2">
+      <a href="/operateur/situation" class="btn btn-outline-light btn-sm">Gains</a>
+      <a href="/operateur/clients" class="btn btn-outline-light btn-sm">Clients</a>
+      <a href="/auth/logout" class="btn btn-outline-warning btn-sm"><i class="bi bi-box-arrow-right me-1"></i>Déconnexion</a>
+    </div>
   </div>
 </nav>
 
