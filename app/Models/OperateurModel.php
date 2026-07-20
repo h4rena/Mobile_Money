@@ -31,17 +31,17 @@ class OperateurModel extends Model
 
         $builder->select("
             op.nom_operateur,
-            to.libelle AS type_operation,
+            tp.libelle AS type_operation,
             SUM(mf.frais) AS total_frais,
             COUNT(o.id_operation) AS nombre_operations,
             SUM(o.montant) AS total_montant
         ");
         $builder->join('operateurs op', 'op.id_operateur = o.id_operateur');
-        $builder->join('type_operation to', 'to.id_type_operation = o.id_type_operation');
+        $builder->join('type_operation tp', 'tp.id_type_operation = o.id_type_operation');
         $builder->join('montant_frais mf', 'o.montant >= mf.montant1 AND o.montant <= mf.montant2');
         $builder->whereIn('o.id_type_operation', [2, 3]);
-        $builder->groupBy('op.nom_operateur, to.libelle');
-        $builder->orderBy('op.nom_operateur, to.libelle');
+        $builder->groupBy('op.nom_operateur, tp.libelle');
+        $builder->orderBy('op.nom_operateur, tp.libelle');
 
         return $builder->get()->getResultArray();
     }

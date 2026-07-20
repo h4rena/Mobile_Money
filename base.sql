@@ -3,6 +3,14 @@ CREATE TABLE prefixes(
     prefixe TEXT NOT NULL
 );
 
+CREATE TABLE users(
+    id_user INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL,
+    mot_de_passe TEXT NOT NULL,
+    id_operateur INTEGER,
+    FOREIGN KEY (id_operateur) REFERENCES operateurs(id_operateur) ON DELETE SET NULL
+);
+
 CREATE TABLE operateurs(
     id_operateur INTEGER PRIMARY KEY AUTOINCREMENT,
     id_prefixe INTEGER,
@@ -36,6 +44,7 @@ CREATE TABLE operations(
     id_type_operation INTEGER,
     id_client INTEGER,
     montant REAL NOT NULL,
+    frais REAL DEFAULT 0,
     date_operation DATETIME NOT NULL,
     FOREIGN KEY (id_operateur) REFERENCES operateurs(id_operateur) ON DELETE CASCADE,
     FOREIGN KEY (id_type_operation) REFERENCES type_operation(id_type_operation) ON DELETE CASCADE,
@@ -47,6 +56,15 @@ CREATE TABLE historique_operations(
     id_operation INTEGER,
     date_historique DATETIME NOT NULL,
     FOREIGN KEY (id_operation) REFERENCES operations(id_operation) ON DELETE CASCADE
+);
+
+CREATE TABLE commission (
+    id_commission INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_operateur_source INTEGER,
+    id_operateur_dest INTEGER,
+    taux REAL NOT NULL,
+    FOREIGN KEY (id_operateur_source) REFERENCES operateurs(id_operateur),
+    FOREIGN KEY (id_operateur_dest) REFERENCES operateurs(id_operateur)
 );
 
 INSERT INTO prefixes (prefixe) VALUES
@@ -61,6 +79,9 @@ INSERT INTO operateurs (id_prefixe, nom_operateur) VALUES
 (2, 'Airtel Money'),
 (3, 'Telma Money'),
 (4, 'MVola');
+
+INSERT INTO users (email, mot_de_passe, id_operateur) VALUES
+('vola@vola.mg', '$2y$12$iCnSzfReumcvQDzNmxXJEugLQUbJoK0HGX9dUuu5fGm0EjOt3vKTa', 4);
 
 -- TYPES D'OPERATION
 INSERT INTO type_operation (libelle) VALUES
@@ -106,3 +127,18 @@ INSERT INTO operations (
 (3, 2, 2, 25000, '2026-07-08 10:25:00'),
 (4, 4, 3, 15000, '2026-07-09 12:00:00'),
 (1, 5, 4, 1000, '2026-07-10 18:15:00');
+
+-- COMMISSIONS (inter-operateurs)
+INSERT INTO commission (id_operateur_source, id_operateur_dest, taux) VALUES
+(1, 2, 2.0),
+(1, 3, 2.5),
+(1, 4, 3.0),
+(2, 1, 2.0),
+(2, 3, 2.0),
+(2, 4, 2.5),
+(3, 1, 2.5),
+(3, 2, 2.0),
+(3, 4, 2.0),
+(4, 1, 3.0),
+(4, 2, 2.5),
+(4, 3, 2.0);
