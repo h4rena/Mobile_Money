@@ -20,11 +20,10 @@ class AuthController extends BaseController
             $session = session();
             $session->set('numero', $client['numero']);
             $session->set('client', $client);
-            return view('client/dashboard', ['client' => $client]);
+            return redirect()->to('/dashboard');
         } else {
             return redirect()->back()->with('error', 'Numéro de téléphone incorrect.');
         }
     }
 }
-
 ?>
