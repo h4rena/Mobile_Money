@@ -3,12 +3,6 @@ CREATE TABLE prefixes(
     prefixe TEXT NOT NULL
 );
 
-CREATE TABLE users(
-    id_user INTEGER PRIMARY KEY AUTOINCREMENT,
-    email TEXT NOT NULL,
-    mot_de_passe TEXT NOT NULL
-);
-
 CREATE TABLE operateurs(
     id_operateur INTEGER PRIMARY KEY AUTOINCREMENT,
     id_prefixe INTEGER,
@@ -67,9 +61,6 @@ INSERT INTO operateurs (id_prefixe, nom_operateur) VALUES
 (2, 'Airtel Money'),
 (3, 'Telma Money'),
 (4, 'MVola');
-
-INSERT INTO users (email, mot_de_passe) VALUES
-('vola@vola.mg', 'mdp1');
 
 -- TYPES D'OPERATION
 INSERT INTO type_operation (libelle) VALUES
