@@ -15,10 +15,13 @@ class OperateurController extends BaseController
         $totalGains = $operateurModel->getGainsTotaux();
         $baremes = $montantFraisModel->orderBy('montant1', 'ASC')->findAll();
 
+        $operateur = session()->get('operateur');
+
         return view('operateur/situation', [
             'gains'      => $gains,
             'totalGains' => $totalGains,
             'baremes'    => $baremes,
+            'operateur'  => $operateur,
         ]);
     }
 }
