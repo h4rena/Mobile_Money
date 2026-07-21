@@ -1,3 +1,8 @@
+CREATE TABLE mon_prefixe(
+    id_mon_prefixe INTEGER PRIMARY KEY AUTOINCREMENT,
+    prefixe TEXT NOT NULL
+);
+
 CREATE TABLE prefixes(
     id_prefixe INTEGER PRIMARY KEY AUTOINCREMENT,
     prefixe TEXT NOT NULL
@@ -9,6 +14,12 @@ CREATE TABLE users(
     mot_de_passe TEXT NOT NULL,
     id_operateur INTEGER,
     FOREIGN KEY (id_operateur) REFERENCES operateurs(id_operateur) ON DELETE SET NULL
+);
+
+CREATE TABLE mon_operateur(
+    id_mon_operateur INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_mon_prefixe INTEGER,
+    FOREIGN KEY (id_mon_prefixe) REFERENCES mon_prefixe(id_mon_prefixe) ON DELETE CASCADE
 );
 
 CREATE TABLE operateurs(
@@ -73,12 +84,18 @@ INSERT INTO prefixes (prefixe) VALUES
 ('034'),
 ('038');
 
+INSERT INTO mon_prefixe (prefixe) VALUES
+('031');
+
 -- OPERATEURS
 INSERT INTO operateurs (id_prefixe, nom_operateur) VALUES
 (1, 'Orange Money'),
 (2, 'Airtel Money'),
 (3, 'Telma Money'),
 (4, 'MVola');
+
+INSERT INTO mon_operateur (id_mon_prefixe) VALUES
+(1);
 
 INSERT INTO users (email, mot_de_passe, id_operateur) VALUES
 ('vola@vola.mg', '$2y$12$iCnSzfReumcvQDzNmxXJEugLQUbJoK0HGX9dUuu5fGm0EjOt3vKTa', 4);

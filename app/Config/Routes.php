@@ -15,7 +15,10 @@ $routes->get('/dashboard', 'ClientController::dashboard');
 $routes->get('/client/solde', 'ClientController::solde');
 // ==================== PREFIXES ====================
 $routes->get('/prefixes', 'PrefixeController::index');
-$routes->post('/prefixes/update', 'PrefixeController::update');
+$routes->post('/prefixes/store', 'PrefixeController::store');
+$routes->get('/prefixes/(:num)/edit', 'PrefixeController::edit/$1');
+$routes->post('/prefixes/(:num)/update', 'PrefixeController::update/$1');
+$routes->post('/prefixes/(:num)/delete', 'PrefixeController::delete/$1');
 $routes->get('/depot', 'OperationController::depot');
 $routes->get('/retrait', 'OperationController::retrait');
 $routes->get('/transfert', 'OperationController::transfert');
