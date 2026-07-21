@@ -114,7 +114,19 @@
 - [x] separation du cote operateur et client
 - [x] login operateur et client
 
-## Taches 3958
+## Situation gains — Separation par operateur
+- [x] OperateurController: regrouper gains par operateur (gainsParOperateur + totalParOperateur)
+- [x] situation.php: une card par operateur avec header + total + sous-table
+- [x] Badge total gains par operateur dans le header de chaque card
+
+## Transfert — Option inclure frais de retrait
+- [x] Checkbox "Inclure les frais de retrait" dans transfert.php (cochee par defaut)
+- [x] Logique controller: frais = fraisBase + commission si inter-op, fraisBase si meme op
+- [x] Validation JS: desactiver checkbox si prefixe destinataire different
+- [x] Message "Frais de retrait non applicables en inter-opérateur"
+- [x] Condition serveur: inter-op = commission seulement, pas de frais de retrait
+
+## Taches 3958 
 - [x] Commission inter-operateurs
   - [x] Table commission (source, dest, taux)
   - [x] CommissionModel::getTaux()
@@ -137,23 +149,11 @@
 - [x] Organiser vues commission dans operateur/commission/ (index, create, edit)
 - [x] OperateurController — passage de $operateur (session) aux vues
 
-## Transfert — Option inclure frais de retrait
-- [x] Checkbox "Inclure les frais de retrait" dans transfert.php (cochee par defaut)
-- [x] Logique controller: frais = fraisBase + commission si inter-op, fraisBase si meme op
-- [x] Validation JS: desactiver checkbox si prefixe destinataire different
-- [x] Message "Frais de retrait non applicables en inter-opérateur"
-- [x] Condition serveur: inter-op = commission seulement, pas de frais de retrait
-
 ## Envoi multiple (meme operateur uniquement)
 - [x] Liste dynamique de destinataires dans transfert.php (ajouter/retirer)
-- [x] Validation JS: prefixe不同 = erreur + blocage
+- [x] Validation JS prefix
 - [x] Apercu temps reel: "Chaque destinataire recevra X Ar"
 - [x] Controller: tableau numero_destinataire[] + validation chaque dest
 - [x] Controller: montant / nombre_destinataires
 - [x] Controller: verification tous meme operateur que l'expediteur
 - [x] Transaction DB: debiter expediteur + crediter chaque destinataire + INSERT operations
-
-## Situation gains — Separation par operateur
-- [x] OperateurController: regrouper gains par operateur (gainsParOperateur + totalParOperateur)
-- [x] situation.php: une card par operateur avec header + total + sous-table
-- [x] Badge total gains par operateur dans le header de chaque card

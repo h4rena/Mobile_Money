@@ -10,24 +10,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-vola">
-  <div class="container-fluid">
-    <a class="navbar-brand brand" href="/operateur/situation">Vola<span class="plus">+</span></a>
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navOp">
-      <i class="bi bi-list text-white" style="font-size:1.4rem;"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navOp">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="/operateur/situation"><i class="bi bi-graph-up me-1"></i>Situation</a></li>
-        <li class="nav-item"><a class="nav-link active" href="/commission"><i class="bi bi-percent me-1"></i>Commissions</a></li>
-        <li class="nav-item"><a class="nav-link" href="/montant-frais"><i class="bi bi-info-circle me-1"></i>Barèmes</a></li>
-      </ul>
-      <div class="d-flex align-items-center gap-2">
-        <a href="/auth/logout" class="text-white text-decoration-none" title="Deconnexion"><i class="bi bi-box-arrow-left"></i></a>
-      </div>
-    </div>
-  </div>
-</nav>
+<?= view('operateur/partials/navbar', ['activePage' => 'commission']) ?>
 
 <div class="container-fluid px-3 px-md-4 py-4 fade-in">
 
@@ -72,11 +55,11 @@
                 <tr>
                   <td>
                     <i class="bi bi-arrow-right-circle text-success me-1"></i>
-                    <?= esc($operateursMap[$c['id_operateur_source']] ?? 'Inconnu') ?>
+                    <?= esc($c['source']) ?>
                   </td>
                   <td>
                     <i class="bi bi-arrow-down-circle text-primary me-1"></i>
-                    <?= esc($operateursMap[$c['id_operateur_dest']] ?? 'Inconnu') ?>
+                    <?= esc($c['destination']) ?>
                   </td>
                   <td class="text-end">
                     <span class="badge" style="background:rgba(11,110,79,0.1);color:var(--vola-green);font-size:0.95rem;font-weight:700;"><?= $c['taux'] ?>%</span>

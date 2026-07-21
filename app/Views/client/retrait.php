@@ -10,12 +10,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-vola">
-  <div class="container-fluid">
-    <a class="navbar-brand brand" href="/dashboard">Vola<span class="plus">+</span></a>
-    <a href="/dashboard" class="btn btn-sm" style="color:#fff; border:1px solid rgba(255,255,255,0.3); border-radius:10px;"><i class="bi bi-arrow-left me-1"></i>Retour</a>
-  </div>
-</nav>
+<?= view('client/navbar', ['active' => 'retrait']) ?>
 
 <div class="container py-5 fade-in">
   <div class="row justify-content-center">

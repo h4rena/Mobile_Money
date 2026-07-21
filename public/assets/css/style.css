@@ -368,3 +368,27 @@ body {
   .stat-value { font-size: 1.2rem; }
   .solde-card .solde-value { font-size: 1.8rem; }
 }
+
+/* ── Dropdown ── */
+.dropdown-menu-vola {
+  border: 1px solid var(--vola-border);
+  border-radius: var(--vola-radius-sm);
+  box-shadow: var(--vola-shadow);
+  padding: 0.35rem;
+  min-width: 180px;
+}
+.dropdown-menu-vola .dropdown-item {
+  border-radius: 8px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.9rem;
+  color: var(--vola-text);
+}
+.dropdown-menu-vola .dropdown-item:hover,
+.dropdown-menu-vola .dropdown-item.active {
+  background: var(--vola-green-light);
+  color: var(--vola-green);
+}
+.dropdown-menu-vola .dropdown-divider {
+  border-color: var(--vola-border);
+  margin: 0.2rem 0;
+}

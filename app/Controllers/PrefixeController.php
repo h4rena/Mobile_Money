@@ -2,8 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\PrefixeModel;
-use App\Models\OperateurModel;
+use App\Models\MonPrefixeModel;
 
 class PrefixeController extends BaseController
 {
@@ -14,44 +13,98 @@ class PrefixeController extends BaseController
             return redirect()->to('/operateur/login');
         }
 
-        $prefixeModel = new PrefixeModel();
-        $operateurModel = new OperateurModel();
-
-        $currentPrefixe = $prefixeModel->find($operateur['id_prefixe']);
-        $allPrefixes = $prefixeModel->findAll();
+        $monPrefixeModel = new MonPrefixeModel();
+        $mesPrefixes = $monPrefixeModel->findAll();
 
         return view('prefixe/index', [
-            'operateur'      => $operateur,
-            'currentPrefixe' => $currentPrefixe,
-            'allPrefixes'    => $allPrefixes,
+            'operateur'   => $operateur,
+            'mesPrefixes' => $mesPrefixes,
         ]);
     }
 
-    public function update()
+    public function store()
     {
         $operateur = session()->get('operateur');
         if (!$operateur) {
             return redirect()->to('/operateur/login');
         }
 
-        $idPrefixe = $this->request->getPost('id_prefixe');
+        $prefixe = trim($this->request->getPost('prefixe') ?? '');
 
-        if (!$idPrefixe) {
-            return redirect()->back()->with('error', 'Veuillez sélectionner un préfixe.');
+        if (empty($prefixe)) {
+            return redirect()->back()->with('error', 'Le préfixe est obligatoire.');
         }
 
-        $operateurModel = new OperateurModel();
-        $operateurModel->update($operateur['id_operateur'], ['id_prefixe' => $idPrefixe]);
+        $monPrefixeModel = new MonPrefixeModel();
+        $count = $monPrefixeModel->countAllResults();
 
-        $prefixeModel = new PrefixeModel();
-        $newPrefixe = $prefixeModel->find($idPrefixe);
+        if ($count >= 2) {
+            return redirect()->back()->with('error', 'Vous ne pouvez avoir que 2 préfixes maximum.');
+        }
 
-        $updatedOperateur = array_merge($operateur, [
-            'id_prefixe'    => $idPrefixe,
-            'prefixe'       => $newPrefixe['prefixe'],
+        $exists = $monPrefixeModel->where('prefixe', $prefixe)->first();
+        if ($exists) {
+            return redirect()->back()->with('error', 'Ce préfixe existe déjà.');
+        }
+
+        $monPrefixeModel->insert(['prefixe' => $prefixe]);
+
+        return redirect()->to('/prefixes')->with('success', 'Préfixe ajouté : ' . $prefixe);
+    }
+
+    public function edit($id)
+    {
+        $operateur = session()->get('operateur');
+        if (!$operateur) {
+            return redirect()->to('/operateur/login');
+        }
+
+        $monPrefixeModel = new MonPrefixeModel();
+        $monPrefixe = $monPrefixeModel->find($id);
+        if (!$monPrefixe) {
+            return redirect()->to('/prefixes')->with('error', 'Préfixe non trouvé.');
+        }
+
+        return view('prefixe/edit', [
+            'operateur'  => $operateur,
+            'monPrefixe' => $monPrefixe,
         ]);
-        session()->set('operateur', $updatedOperateur);
+    }
 
-        return redirect()->to('/prefixes')->with('success', 'Préfixe mis à jour : ' . $newPrefixe['prefixe']);
+    public function update($id)
+    {
+        $operateur = session()->get('operateur');
+        if (!$operateur) {
+            return redirect()->to('/operateur/login');
+        }
+
+        $prefixe = trim($this->request->getPost('prefixe') ?? '');
+
+        if (empty($prefixe)) {
+            return redirect()->back()->with('error', 'Le préfixe est obligatoire.');
+        }
+
+        $monPrefixeModel = new MonPrefixeModel();
+        $exists = $monPrefixeModel->where('prefixe', $prefixe)->where('id_mon_prefixe !=', $id)->first();
+        if ($exists) {
+            return redirect()->back()->with('error', 'Ce préfixe existe déjà.');
+        }
+
+        $monPrefixeModel->update($id, ['prefixe' => $prefixe]);
+
+        return redirect()->to('/prefixes')->with('success', 'Préfixe mis à jour.');
+    }
+
+    public function delete($id)
+    {
+        $operateur = session()->get('operateur');
+        if (!$operateur) {
+            return redirect()->to('/operateur/login');
+        }
+
+        $monPrefixeModel = new MonPrefixeModel();
+        $monPrefixeModel->delete($id);
+
+        return redirect()->to('/prefixes')->with('success', 'Préfixe supprimé.');
     }
 }
