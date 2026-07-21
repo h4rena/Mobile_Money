@@ -12,6 +12,7 @@
         <li class="nav-item"><a class="nav-link <?= $active === 'retrait' ? 'active' : '' ?>" href="/retrait"><i class="bi bi-arrow-down-left-circle me-1"></i>Retrait</a></li>
         <li class="nav-item"><a class="nav-link <?= $active === 'transfert' ? 'active' : '' ?>" href="/transfert"><i class="bi bi-send me-1"></i>Envoyer</a></li>
         <li class="nav-item"><a class="nav-link <?= $active === 'solde' ? 'active' : '' ?>" href="/client/solde"><i class="bi bi-eye me-1"></i>Solde</a></li>
+        <li class="nav-item"><a class="nav-link <?= $active === 'solde' ? 'active' : '' ?>" href="/epargne/show"><i class="bi bi-eye me-1"></i>Epargne</a></li>
       </ul>
       <div class="d-flex align-items-center gap-2">
         <div class="avatar"><?= strtoupper(substr($client['nom_client'], 0, 1)) ?></div>

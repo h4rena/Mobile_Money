@@ -88,6 +88,14 @@ CREATE TABLE commission (
     FOREIGN KEY (id_operateur_dest) REFERENCES operateurs(id_operateur)
 );
 
+CREATE TABLE epargne(
+    id_epargne INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_client INTEGER,
+    pourcentage_epargne INTEGER,
+    solde_epargne REAL,
+     FOREIGN KEY (id_client) REFERENCES clients(id_client) ON DELETE CASCADE
+);
+
 INSERT INTO prefixes (prefixe) VALUES
 ('032'),
 ('033'),
