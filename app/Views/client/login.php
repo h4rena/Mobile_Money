@@ -33,6 +33,7 @@
       <i class="bi bi-box-arrow-in-right me-1"></i>Se connecter
     </button>
   </form>
+  <p>numero: 0321234567</p>
   <a href="/operateur/login">Operateur</a>
 </div>
 
