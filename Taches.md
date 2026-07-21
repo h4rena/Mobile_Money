@@ -160,3 +160,8 @@
 -pourcentage promotion frais de transfert meme operateur
 -page manova pourcentage
 -anaty base configuration
+
+-notion epart
+-manana interface mietny oe zao % epargne ajoutena anaty base ilay % ohatra raha misy vola tonga de ilay %epargne mandeha any am epargne dia ambony mandeha
+any am solde
+-

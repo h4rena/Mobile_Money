@@ -11,26 +11,26 @@ use App\Models\CommissionModel;
 use App\Models\PromotionModel;
 use App\Models\EpargneModel;
 
-class OperationController extends BaseController
+class EpargneController extends BaseController
 {
-    private function getOperationModel()
+    private function getEpargneModel()
     {
-        return new OperationModel();
+        return new EpargneModel();
     }
 
     public function index()
     {
-        $operations = $this->getOperationModel()->findAll();
-        return view('operation/index', ['operations' => $operations]);
+        $epargnes = $this->getEpargneModel()->findAll();
+        return view('epargne/index', ['epargnes' => $epargnes]);
     }
 
     public function show($id = null)
     {
-        $operation = $this->getOperationModel()->find($id);
-        if (!$operation) {
-            return redirect()->to('/operations')->with('error', 'Opération non trouvée');
+        $epargne = $this->getEpargneModel()->find($id);
+        if (!$epargne) {
+            return redirect()->to('/epargne')->with('error', 'epargne non trouvée');
         }
-        return view('operation/show', ['operation' => $operation]);
+        return view('client/epargne', ['epargne' => $epargne]);
     }
 
     public function depot()
@@ -60,11 +60,12 @@ class OperationController extends BaseController
         return view('client/transfert', ['client' => $client]);
     }
 
-    public function store()
+     public function store()
     {
         $id_client         = $this->request->getPost('id_client');
         $id_type_operation = $this->request->getPost('id_type_operation');
         $montant           = (float) $this->request->getPost('montant');
+        $pourcentage_epargne = (float) $this->request->getPost('pourcentage_ep');
 
         
         $clientModel       = new ClientModel();
@@ -74,6 +75,7 @@ class OperationController extends BaseController
         $montantFraisModel = new MontantFraisModel();
         $commissionModel   = new CommissionModel();
         $prommotionModel   = new PromotionModel();
+        $epargneModel = new EpargneModel();
         
         $client = $clientModel->find($id_client);
         if (!$client) {
@@ -295,9 +297,9 @@ class OperationController extends BaseController
 
     public function edit($id = null)
     {
-        $operation = $this->getOperationModel()->find($id);
+        $operation = $this->getEpargneModel()->find($id);
         if (!$operation) {
-            return redirect()->to('/operations')->with('error', 'Opération non trouvée');
+            return redirect()->to('/epargne')->with('error', 'epargne non trouvée');
         }
         return view('operation/edit', ['operation' => $operation]);
     }
@@ -305,13 +307,14 @@ class OperationController extends BaseController
     public function update($id = null)
     {
         $data = $this->request->getPost();
-        $this->getOperationModel()->update($id, $data);
-        return redirect()->to('/operations')->with('success', 'Opération mise à jour');
+        $this->getEpargneModel()->update($id, $data);
+        return redirect()->to('/epargne')->with('success', 'epargne mise à jour');
     }
 
     public function delete($id = null)
     {
-        $this->getOperationModel()->delete($id);
-        return redirect()->to('/operations')->with('success', 'Opération supprimée');
+        $this->getEpargneModel()->delete($id);
+        return redirect()->to('/epargne')->with('success', 'epargne supprimée');
     }
+
 }
