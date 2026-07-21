@@ -174,20 +174,22 @@ class OperationController extends BaseController
             }
 
             $destData = [];
-            foreach ($destinataires as $num) {
-                $dest = $clientModel->getClientByNumero(trim($num));
-                if (!$dest) {
-                    return redirect()->back()->with('error', 'Destinataire non trouvé : ' . esc($num));
+                $opDestData = [];
+                foreach ($destinataires as $num) {
+                    $dest = $clientModel->getClientByNumero(trim($num));
+                    if (!$dest) {
+                        return redirect()->back()->with('error', 'Destinataire non trouvé : ' . esc($num));
+                    }
+                    $opDest = $operateurModel->getOperateurByNumero($dest['numero']);
+                    if (!$opDest) {
+                        return redirect()->back()->with('error', 'Opérateur non trouvé pour : ' . esc($num));
+                    }
+                    if ($opDest['type'] !== $operateurEmetteur['type'] || $opDest['id_operateur'] !== $operateurEmetteur['id_operateur']) {
+                        return redirect()->back()->with('error', 'Envoi multiple réservé au même opérateur. Numéro incompatible : ' . esc($num));
+                    }
+                    $destData[] = $dest;
+                    $opDestData[] = $opDest;
                 }
-                $opDest = $operateurModel->getOperateurByNumero($dest['numero']);
-                if (!$opDest) {
-                    return redirect()->back()->with('error', 'Opérateur non trouvé pour : ' . esc($num));
-                }
-                if ($opDest['type'] !== $operateurEmetteur['type'] || $opDest['id_operateur'] !== $operateurEmetteur['id_operateur']) {
-                    return redirect()->back()->with('error', 'Envoi multiple réservé au même opérateur. Numéro incompatible : ' . esc($num));
-                }
-                $destData[] = $dest;
-            }
 
             $inclusFrais = $this->request->getPost('inclus_frais');
             $nbDest = count($destData);
@@ -209,12 +211,17 @@ class OperationController extends BaseController
 
             $clientModel->update($id_client, ['solde' => $nouveauSolde]);
 
-            foreach ($destData as $dest) {
+            foreach ($destData as $i => $dest) {
                 $dest['solde'] += $montantParDest;
                 $clientModel->update($dest['id_client'], ['solde' => $dest['solde']]);
 
+                $idOpDest = ($opDestData[$i]['type'] === 'operateur')
+                    ? $opDestData[$i]['id_operateur']
+                    : null;
+
                 $operationModel->insert([
                     'id_operateur'      => $idOperateurEmetteur,
+                    'id_operateur_dest' => $idOpDest,
                     'id_type_operation' => $id_type_operation,
                     'id_client'         => $dest['id_client'],
                     'montant'           => $montantParDest,

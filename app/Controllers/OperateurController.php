@@ -16,8 +16,10 @@ class OperateurController extends BaseController
         $operateurModel = new OperateurModel();
         $montantFraisModel = new MontantFraisModel();
 
-        $gains = $operateurModel->getGainsParOperateur();
-        $totalGains = $operateurModel->getGainsTotaux();
+        $filtreType = $this->request->getGet('type') ?: null;
+
+        $gains = $operateurModel->getGainsParOperateur($filtreType);
+        $totalGains = $operateurModel->getGainsTotaux($filtreType);
         $baremes = $montantFraisModel->orderBy('montant1', 'ASC')->findAll();
 
         $gainsParOperateur = [];
@@ -41,6 +43,7 @@ class OperateurController extends BaseController
             'totalGains'         => $totalGains,
             'baremes'            => $baremes,
             'operateur'          => $operateur,
+            'filtreType'         => $filtreType,
         ]);
     }
 

@@ -14,21 +14,11 @@ class CommissionController extends BaseController
 
     public function index()
     {
-        $commissionModel = new CommissionModel();
-        $operateurModel = new OperateurModel();
-
-        $commissions = $commissionModel->findAll();
-        $operateurs = $operateurModel->findAll();
-
-        $operateursMap = [];
-        foreach ($operateurs as $op) {
-            $operateursMap[$op['id_operateur']] = $op['nom_operateur'];
-        }
+        $db = \Config\Database::connect();
+        $commissions = $db->table('v_commission_noms')->get()->getResultArray();
 
         return view('operateur/commission/index', [
             'commissions' => $commissions,
-            'operateurs' => $operateurs,
-            'operateursMap' => $operateursMap,
         ]);
     }
 
