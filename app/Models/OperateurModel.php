@@ -50,31 +50,34 @@ class OperateurModel extends Model
         return null;
     }
 
-    public function getGainsParOperateur()
+    public function getGainsParOperateur(?string $filtreType = null)
     {
         $db      = \Config\Database::connect();
-        $builder = $db->table('operations o');
+        $builder = $db->table('v_gains v');
 
         $builder->select("
-            op.nom_operateur,
-            tp.libelle AS type_operation,
-            SUM(mf.frais) AS total_frais,
-            COUNT(o.id_operation) AS nombre_operations,
-            SUM(o.montant) AS total_montant
+            v.nom_operateur,
+            v.type_operation,
+            SUM(v.frais_calcule) AS total_frais,
+            COUNT(v.id_operation) AS nombre_operations,
+            SUM(v.montant) AS total_montant
         ");
-        $builder->join('operateurs op', 'op.id_operateur = o.id_operateur');
-        $builder->join('type_operation tp', 'tp.id_type_operation = o.id_type_operation');
-        $builder->join('montant_frais mf', 'o.montant >= mf.montant1 AND o.montant <= mf.montant2');
-        $builder->whereIn('o.id_type_operation', [2, 3]);
-        $builder->groupBy('op.nom_operateur, tp.libelle');
-        $builder->orderBy('op.nom_operateur, tp.libelle');
+
+        if ($filtreType === 'retrait') {
+            $builder->where('v.type_operation', 'Retrait');
+        } elseif ($filtreType === 'transfert') {
+            $builder->where('v.type_operation', 'Transfert');
+        }
+
+        $builder->groupBy('v.nom_operateur, v.type_operation');
+        $builder->orderBy('v.nom_operateur, v.type_operation');
 
         return $builder->get()->getResultArray();
     }
 
-    public function getGainsTotaux()
+    public function getGainsTotaux(?string $filtreType = null)
     {
-        $gains = $this->getGainsParOperateur();
+        $gains = $this->getGainsParOperateur($filtreType);
         $total = 0;
         foreach ($gains as $g) {
             $total += $g['total_frais'];

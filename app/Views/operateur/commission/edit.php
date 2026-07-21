@@ -10,12 +10,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-vola">
-  <div class="container-fluid">
-    <a class="navbar-brand brand" href="/operateur/situation">Vola<span class="plus">+</span></a>
-    <a href="/commission" class="btn btn-sm" style="color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:10px;"><i class="bi bi-arrow-left me-1"></i>Retour</a>
-  </div>
-</nav>
+<?= view('operateur/partials/navbar', ['activePage' => 'commission']) ?>
 
 <div class="container py-5 fade-in">
   <div class="row justify-content-center">
@@ -77,5 +72,6 @@
   </div>
 </div>
 
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
