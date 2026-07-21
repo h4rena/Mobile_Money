@@ -157,3 +157,6 @@
 - [x] Controller: montant / nombre_destinataires
 - [x] Controller: verification tous meme operateur que l'expediteur
 - [x] Transaction DB: debiter expediteur + crediter chaque destinataire + INSERT operations
+-pourcentage promotion frais de transfert meme operateur
+-page manova pourcentage
+-anaty base configuration

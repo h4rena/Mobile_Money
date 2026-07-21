@@ -48,6 +48,11 @@ CREATE TABLE montant_frais(
     frais REAL NOT NULL
 );
 
+CREATE TABLE promotion(
+    id_promotion INTEGER PRIMARY KEY AUTOINCREMENT,
+    pourcentage INTEGER
+);
+
 
 CREATE TABLE operations(
     id_operation INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -57,6 +62,7 @@ CREATE TABLE operations(
     id_client INTEGER,
     montant REAL NOT NULL,
     frais REAL DEFAULT 0,
+    id_promotion INTEGER,
     date_operation DATETIME NOT NULL,
     FOREIGN KEY (id_operateur) REFERENCES operateurs(id_operateur) ON DELETE CASCADE,
     FOREIGN KEY (id_operateur_dest) REFERENCES operateurs(id_operateur) ON DELETE SET NULL,
@@ -70,6 +76,8 @@ CREATE TABLE historique_operations(
     date_historique DATETIME NOT NULL,
     FOREIGN KEY (id_operation) REFERENCES operations(id_operation) ON DELETE CASCADE
 );
+
+
 
 CREATE TABLE commission (
     id_commission INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -127,6 +135,8 @@ INSERT INTO montant_frais (montant1, montant2, frais) VALUES
 (10001, 50000, 500),
 (50001, 100000, 1000),
 (100001, 500000, 2000);
+
+INSERT INTO promotion(pourcentage) VALUES(10);
 
 -- OPERATIONS
 INSERT INTO operations (

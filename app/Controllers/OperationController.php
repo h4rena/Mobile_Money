@@ -8,6 +8,7 @@ use App\Models\TypeOperationModel;
 use App\Models\OperateurModel;
 use App\Models\MontantFraisModel;
 use App\Models\CommissionModel;
+use App\Models\PromotionModel;
 
 class OperationController extends BaseController
 {
@@ -64,17 +65,22 @@ class OperationController extends BaseController
         $id_type_operation = $this->request->getPost('id_type_operation');
         $montant           = (float) $this->request->getPost('montant');
 
+        
         $clientModel       = new ClientModel();
         $typeOpModel       = new TypeOperationModel();
         $operationModel    = new OperationModel();
         $operateurModel    = new OperateurModel();
         $montantFraisModel = new MontantFraisModel();
         $commissionModel   = new CommissionModel();
-
+        $prommotionModel   = new PromotionModel();
+        
         $client = $clientModel->find($id_client);
         if (!$client) {
             return redirect()->back()->with('error', 'Client non trouvé');
         }
+
+        $opEmeteur = $operateurModel -> getOperateurByNumero($client['numero']);
+        $promotion = $prommotionModel-> findAll();
 
         $typeOp = $typeOpModel->find($id_type_operation);
         if (!$typeOp) {
@@ -197,6 +203,9 @@ class OperationController extends BaseController
 
             $ligne = $montantFraisModel->getFraisByMontant($montant);
             $frais = ($inclusFrais && $ligne) ? $ligne['frais'] : 0;
+            if($promotion && $opDest['id_operateur'] == $opEmeteur){
+                $frais = $frais * $promotion['promotion'] / 100;
+            }
 
             if ($client['solde'] < $montant + $frais) {
                 return redirect()->back()->with('error', 'Solde insuffisant');
