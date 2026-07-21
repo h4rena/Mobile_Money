@@ -114,7 +114,7 @@
 - [x] separation du cote operateur et client
 - [x] login operateur et client
 
-## Taches 3958
+## Taches 3958 
 - [x] Commission inter-operateurs
   - [x] Table commission (source, dest, taux)
   - [x] CommissionModel::getTaux()
@@ -146,7 +146,7 @@
 
 ## Envoi multiple (meme operateur uniquement)
 - [x] Liste dynamique de destinataires dans transfert.php (ajouter/retirer)
-- [x] Validation JS: prefixe不同 = erreur + blocage
+- [x] Validation JS prefix
 - [x] Apercu temps reel: "Chaque destinataire recevra X Ar"
 - [x] Controller: tableau numero_destinataire[] + validation chaque dest
 - [x] Controller: montant / nombre_destinataires
