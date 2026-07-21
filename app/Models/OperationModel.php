@@ -8,7 +8,7 @@ class OperationModel extends Model
 {
     protected $table = 'operations';
     protected $primaryKey = 'id_operation';
-    protected $allowedFields = ['id_operateur', 'id_operateur_dest', 'id_type_operation', 'id_client', 'montant', 'frais', 'date_operation'];
+    protected $allowedFields = ['id_operateur', 'id_operateur_dest', 'id_type_operation', 'id_client', 'id_promotion','montant', 'frais', 'date_operation'];
 
     public function getOperationsByClient(int $idClient, int $limit = 10)
     {
