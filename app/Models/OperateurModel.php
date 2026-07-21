@@ -14,14 +14,40 @@ class OperateurModel extends Model
     {
         $prefixe = substr($numero, 0, 3);
 
-        $prefixeModel = new \App\Models\PrefixeModel();
+        $monPrefixeModel = new MonPrefixeModel();
+        $isMonPrefixe = $monPrefixeModel->where('prefixe', $prefixe)->first();
+
+        if ($isMonPrefixe) {
+            $monOpModel = new MonOperateurModel();
+            $monOp = $monOpModel->getMonOperateurAvecPrefixes();
+            if ($monOp) {
+                return [
+                    'type'        => 'mon_operateur',
+                    'id_operateur'=> $monOp['id_mon_operateur'],
+                    'nom_operateur'=> 'Mon opérateur',
+                    'prefixe'     => $monOp['prefixe'],
+                ];
+            }
+        }
+
+        $prefixeModel = new PrefixeModel();
         $pref = $prefixeModel->where('prefixe', $prefixe)->first();
 
         if (!$pref) {
             return null;
         }
 
-        return $this->where('id_prefixe', $pref['id_prefixe'])->first();
+        $op = $this->where('id_prefixe', $pref['id_prefixe'])->first();
+        if ($op) {
+            return [
+                'type'         => 'operateur',
+                'id_operateur' => $op['id_operateur'],
+                'nom_operateur'=> $op['nom_operateur'],
+                'prefixe'      => $pref['prefixe'],
+            ];
+        }
+
+        return null;
     }
 
     public function getGainsParOperateur()

@@ -90,6 +90,10 @@ class OperationController extends BaseController
             return redirect()->back()->with('error', 'Opérateur non trouvé pour ce numéro');
         }
 
+        $idOperateurEmetteur = ($operateurEmetteur['type'] === 'operateur')
+            ? $operateurEmetteur['id_operateur']
+            : null;
+
         $frais = 0;
 
         if ($typeOp['libelle'] === 'Depot') {
@@ -101,7 +105,7 @@ class OperationController extends BaseController
             $clientModel->update($id_client, ['solde' => $nouveauSolde]);
 
             $operationModel->insert([
-                'id_operateur'      => $operateurEmetteur['id_operateur'],
+                'id_operateur'      => $idOperateurEmetteur,
                 'id_type_operation' => $id_type_operation,
                 'id_client'         => $id_client,
                 'montant'           => $montant,
@@ -135,7 +139,7 @@ class OperationController extends BaseController
             $clientModel->update($id_client, ['solde' => $nouveauSolde]);
 
             $operationModel->insert([
-                'id_operateur'      => $operateurEmetteur['id_operateur'],
+                'id_operateur'      => $idOperateurEmetteur,
                 'id_type_operation' => $id_type_operation,
                 'id_client'         => $id_client,
                 'montant'           => $montant,
@@ -179,7 +183,7 @@ class OperationController extends BaseController
                 if (!$opDest) {
                     return redirect()->back()->with('error', 'Opérateur non trouvé pour : ' . esc($num));
                 }
-                if ($opDest['id_operateur'] !== $operateurEmetteur['id_operateur']) {
+                if ($opDest['type'] !== $operateurEmetteur['type'] || $opDest['id_operateur'] !== $operateurEmetteur['id_operateur']) {
                     return redirect()->back()->with('error', 'Envoi multiple réservé au même opérateur. Numéro incompatible : ' . esc($num));
                 }
                 $destData[] = $dest;
@@ -210,7 +214,7 @@ class OperationController extends BaseController
                 $clientModel->update($dest['id_client'], ['solde' => $dest['solde']]);
 
                 $operationModel->insert([
-                    'id_operateur'      => $operateurEmetteur['id_operateur'],
+                    'id_operateur'      => $idOperateurEmetteur,
                     'id_type_operation' => $id_type_operation,
                     'id_client'         => $dest['id_client'],
                     'montant'           => $montantParDest,
@@ -220,7 +224,7 @@ class OperationController extends BaseController
             }
 
             $operationModel->insert([
-                    'id_operateur'      => $operateurEmetteur['id_operateur'],
+                    'id_operateur'      => $idOperateurEmetteur,
                     'id_type_operation' => $id_type_operation,
                     'id_client'         => $id_client,
                     'montant'           => $montant,
@@ -251,7 +255,7 @@ class OperationController extends BaseController
             $clientModel->update($id_client, ['solde' => $nouveauSolde]);
 
             $operationModel->insert([
-                'id_operateur'      => $operateurEmetteur['id_operateur'],
+                'id_operateur'      => $idOperateurEmetteur,
                 'id_type_operation' => $id_type_operation,
                 'id_client'         => $id_client,
                 'montant'           => $montant,
